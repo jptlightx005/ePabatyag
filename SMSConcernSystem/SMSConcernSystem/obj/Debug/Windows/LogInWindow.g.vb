@@ -39,7 +39,6 @@ Imports System.Windows.Shell
 '''</summary>
 <Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class LogInWindow
-    Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
     
     

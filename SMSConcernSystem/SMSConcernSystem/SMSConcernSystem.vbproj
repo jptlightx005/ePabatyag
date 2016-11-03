@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="Modules\DBFunctions.vb" />
     <Compile Include="SMSConcernModule.vb" />
     <Compile Include="SMSConcernWindow.vb" />
     <Compile Include="Windows\LogInWindow.xaml.vb">
