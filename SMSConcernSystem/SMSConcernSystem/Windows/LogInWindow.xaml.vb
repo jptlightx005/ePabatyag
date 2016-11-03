@@ -1,4 +1,4 @@
-﻿Public Class Log_in
+﻿Public Class LogInWindow
 
     Private Sub btnLogin_Click(sender As Object, e As RoutedEventArgs) Handles btnLogin.Click
         If txtUsrn.Text = "admin" And txtPssw.Password = "password" Then

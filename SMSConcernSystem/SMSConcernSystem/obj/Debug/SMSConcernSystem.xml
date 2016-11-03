@@ -14,25 +14,21 @@ InitializeComponent
 	<summary>
 MainWindow
 </summary>
-</member><member name="M:SMSConcernSystem.Log_in.InitializeComponent">
+</member><member name="M:SMSConcernSystem.LogInWindow.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:SMSConcernSystem.Log_in">
+</member><member name="T:SMSConcernSystem.LogInWindow">
 	<summary>
-Log_in
+LogInWindow
 </summary>
-</member><member name="M:SMSConcernSystem.Application.InitializeComponent">
+</member><member name="M:SMSConcernSystem.Registration.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="M:SMSConcernSystem.Application.Main">
+</member><member name="T:SMSConcernSystem.Registration">
 	<summary>
-Application Entry Point.
-</summary>
-</member><member name="T:SMSConcernSystem.Application">
-	<summary>
-Application
+Registration
 </summary>
 </member><member name="P:SMSConcernSystem.My.Resources.Resources.ResourceManager">
 	<summary>
