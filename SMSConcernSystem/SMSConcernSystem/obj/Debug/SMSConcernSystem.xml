@@ -6,13 +6,29 @@ SMSConcernSystem
 </name>
 </assembly>
 <members>
-<member name="M:SMSConcernSystem.MainWindow.InitializeComponent">
+<member name="M:SMSConcernSystem.RegistrationWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.RegistrationWindow">
+	<summary>
+RegistrationWindow
+</summary>
+</member><member name="M:SMSConcernSystem.MainWindow.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
 </member><member name="T:SMSConcernSystem.MainWindow">
 	<summary>
 MainWindow
+</summary>
+</member><member name="M:SMSConcernSystem.StudentListWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.StudentListWindow">
+	<summary>
+StudentListWindow
 </summary>
 </member><member name="M:SMSConcernSystem.LogInWindow.InitializeComponent">
 	<summary>
@@ -21,14 +37,6 @@ InitializeComponent
 </member><member name="T:SMSConcernSystem.LogInWindow">
 	<summary>
 LogInWindow
-</summary>
-</member><member name="M:SMSConcernSystem.Registration.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:SMSConcernSystem.Registration">
-	<summary>
-Registration
 </summary>
 </member><member name="P:SMSConcernSystem.My.Resources.Resources.ResourceManager">
 	<summary>

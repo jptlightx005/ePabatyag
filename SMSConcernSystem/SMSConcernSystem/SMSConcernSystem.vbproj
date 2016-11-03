@@ -74,6 +74,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Windows\StudentListWindow.xaml.vb">
+      <DependentUpon>StudentListWindow.xaml</DependentUpon>
+    </Compile>
     <None Include="app.config" />
     <None Include="Application.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -85,8 +88,8 @@
     <Compile Include="Windows\LogInWindow.xaml.vb">
       <DependentUpon>LogInWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Registration.xaml.vb">
-      <DependentUpon>Registration.xaml</DependentUpon>
+    <Compile Include="Windows\RegistrationWindow.xaml.vb">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -104,7 +107,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Registration.xaml">
+    <Page Include="Windows\RegistrationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\StudentListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
