@@ -3,7 +3,7 @@ Imports System.Data.SQLite
 
 Module DBFunctions
 
-    Public Sub DBQuery(completionBlock As Func(Of SQLiteConnection, Integer))
+    Public Sub DBQuery(completionBlock As Action(Of SQLiteConnection))
         Dim cnstr As String = String.Format("DataSource={0};Version=3;New=False;Compress=True;", smsSystemDB)
         Using cn As New SQLiteConnection(cnstr)
             cn.Open()
@@ -11,27 +11,42 @@ Module DBFunctions
         End Using
     End Sub
 
-    Public Sub ExecuteQuery(sql As String, completionBlock As Func(Of Boolean, Integer))
-        DBQuery(Function(cn)
+    Public Sub ExecuteQuery(sql As String, completionBlock As Action(Of Boolean))
+        DBQuery(Sub(cn)
                     Using cmd As New SQLiteCommand(sql, cn)
-                        cmd.ExecuteNonQuery()
-                    End Using
+                        Try
+                            Debug.Print("Execute SQL: " & sql)
+                            Debug.Print("Result: {0}", cmd.ExecuteNonQuery())
+                            If Not completionBlock Is Nothing Then
+                                completionBlock(True)
+                            End If
 
-                    Using cmd As New SQLiteCommand(sql, cn)
-                        cmd.ExecuteNonQuery()
+                        Catch ex As Exception
+                            Debug.Print("Error: {0}", ex.Message)
+                            If Not completionBlock Is Nothing Then
+                                completionBlock(False)
+                            End If
+                        End Try
                     End Using
-                    Return 0
-                End Function)
+                End Sub)
     End Sub
 
-    Public Sub SelectQuery(sql As String, completionBlock As Func(Of ArrayList, Integer))
-        DBQuery(Function(cn)
-                    Dim record As New Dictionary(Of String, String)
+    Public Sub ExecuteQueryFromDictionary(sql As String, params As Dictionary(Of String, String), completionBlock As Action(Of Boolean))
+        DBQuery(Sub(cn)
+                    Using cmd As New SQLiteCommand
+
+                    End Using
+                End Sub)
+    End Sub
+
+    Public Sub SelectQuery(sql As String, completionBlock As Action(Of ArrayList))
+        DBQuery(Sub(cn)
                     Dim records As New ArrayList
-                    Debug.Print("SQL: " & sql)
+                    Debug.Print("Select SQL: " & sql)
                     Using cmd As New SQLiteCommand(sql, cn)
                         Using rs As SQLiteDataReader = cmd.ExecuteReader()
                             While rs.Read
+                                Dim record As New Dictionary(Of String, String)
                                 For i As Integer = 0 To rs.FieldCount - 1
                                     record.Add(rs.GetName(i), rs.GetValue(i))
                                 Next
@@ -41,8 +56,7 @@ Module DBFunctions
                     End Using
 
                     completionBlock(records)
-                    Return 0
-                End Function)
+                End Sub)
     End Sub
     Public Sub CreateAdminAccount()
         Dim tableQuery As String = "CREATE TABLE `tbl_admin` (" & _
@@ -53,28 +67,46 @@ Module DBFunctions
                                     ");"
         Dim adminQuery As String = "INSERT INTO `tbl_admin` VALUES (NULL, 'admin', 'password', 'admin@password.com')"
 
-        Dim cnstr As String = String.Format("DataSource={0};Version=3;New=False;Compress=True;", smsSystemDB)
-
-        DBQuery(Function(cn)
-                    Using cmd As New SQLiteCommand(tableQuery, cn)
-                        cmd.ExecuteNonQuery()
-                    End Using
-
-                    Using cmd As New SQLiteCommand(adminQuery, cn)
-                        cmd.ExecuteNonQuery()
-                    End Using
-                    Return 0
-                End Function)
+        ExecuteQuery(tableQuery,
+                     Sub(createdTable)
+                         Debug.Print("Created : {0}", createdTable.ToString)
+                         If (createdTable) Then
+                             ExecuteQuery(adminQuery, Nothing)
+                         Else
+                             MsgBox("Failed to create Table", vbExclamation)
+                         End If
+                     End Sub)
 
     End Sub
 
-    Public Sub Login(usrn As String, pssw As String, completionBlock As Func(Of ArrayList, Integer))
+    Public Sub CreateContactsTable()
+        Dim tableQuery As String = "CREATE TABLE `tbl_contacts` (" & _
+            "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+            "`student_id`	TEXT NOT NULL," & _
+            "`mobile_number`	TEXT NOT NULL," & _
+            "`first_name`	TEXT NOT NULL," & _
+            "`last_name`	TEXT NOT NULL, " & _
+            "`course`	TEXT NOT NULL, " & _
+            "`year_section`	TEXT NOT NULL, " & _
+            "`gender`	TEXT NOT NULL, " & _
+            "`date_of_birth`	TEXT NOT NULL, " & _
+            "`address`	TEXT NOT NULL, " & _
+            "`email`	TEXT NOT NULL, " & _
+            "`date_registered`	TEXT NOT NULL" & _
+            ");"
+        ExecuteQuery(tableQuery,
+                     Sub(createdTable)
+                         Debug.Print("Created : {0}", createdTable.ToString)
+                     End Sub)
+    End Sub
+
+    Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of ArrayList))
         Dim loginQuery As String = String.Format("SELECT * FROM `tbl_admin` WHERE usrn = '{0}' And pssw = '{1}'", usrn, pssw)
 
-        SelectQuery(loginQuery, Function(dictionaries)
-                                    completionBlock(dictionaries)
-                                    Return 0
-                                End Function)
+        SelectQuery(loginQuery,
+                    Sub(dictionaries)
+                        completionBlock(dictionaries)
+                    End Sub)
     End Sub
 
 End Module

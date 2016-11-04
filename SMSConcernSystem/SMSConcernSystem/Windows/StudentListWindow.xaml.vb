@@ -1,5 +1,4 @@
 ﻿Public Class StudentListWindow
-    Inherits SMSConcernWindow
     Private Sub btnAdd_Click(sender As Object, e As RoutedEventArgs) Handles btnAdd.Click
         Dim regWindow As New RegistrationWindow
         regWindow.ShowDialog()

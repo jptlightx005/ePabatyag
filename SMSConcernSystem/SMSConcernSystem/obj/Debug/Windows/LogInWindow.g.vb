@@ -39,69 +39,70 @@ Imports System.Windows.Shell
 '''</summary>
 <Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Public Class LogInWindow
+    Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-    
-    
+
+
     #ExternalSource("..\..\..\Windows\LogInWindow.xaml",6)
-    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")> _
     Friend WithEvents btnLogin As System.Windows.Controls.Button
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Windows\LogInWindow.xaml",7)
-    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")> _
     Friend WithEvents txtUsrn As System.Windows.Controls.TextBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Windows\LogInWindow.xaml",8)
-    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")> _
     Friend WithEvents txtPssw As System.Windows.Controls.PasswordBox
-    
+
     #End ExternalSource
-    
+
     Private _contentLoaded As Boolean
-    
+
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")> _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = true
+        _contentLoaded = True
         Dim resourceLocater As System.Uri = New System.Uri("/SMSConcernSystem;component/windows/loginwindow.xaml", System.UriKind.Relative)
-        
+
         #ExternalSource("..\..\..\Windows\LogInWindow.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-        
+
         #End ExternalSource
     End Sub
-    
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0"),  _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
+
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0"), _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")> _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.btnLogin = CType(target,System.Windows.Controls.Button)
+            Me.btnLogin = CType(target, System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 2) Then
-            Me.txtUsrn = CType(target,System.Windows.Controls.TextBox)
+            Me.txtUsrn = CType(target, System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 3) Then
-            Me.txtPssw = CType(target,System.Windows.Controls.PasswordBox)
+            Me.txtPssw = CType(target, System.Windows.Controls.PasswordBox)
             Return
         End If
-        Me._contentLoaded = true
+        Me._contentLoaded = True
     End Sub
 End Class
 

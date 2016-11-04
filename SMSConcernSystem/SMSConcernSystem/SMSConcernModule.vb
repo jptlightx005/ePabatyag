@@ -21,9 +21,18 @@ Module SMSConcernModule
             System.IO.Directory.CreateDirectory(smsSystemFolder)
         End If
 
-        If Not System.IO.Directory.Exists(smsSystemDB) Then
+        If Not System.IO.File.Exists(smsSystemDB) Then
             SQLiteConnection.CreateFile(smsSystemDB)
             CreateAdminAccount()
+            CreateContactsTable()
         End If
     End Sub
+
+    Public Function AllTrim(ByVal text As String) As String
+        Return text.Trim
+    End Function
+
+    Public Function SQLInject(ByVal text As String) As String
+        Return "'" & AllTrim(text).Replace("'", "''") & "'"
+    End Function
 End Module
