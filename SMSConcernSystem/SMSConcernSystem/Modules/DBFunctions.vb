@@ -1,6 +1,6 @@
 ﻿
 Imports System.Data.SQLite
-
+Imports System.Data.DataSet
 Module DBFunctions
 
     Public Sub DBQuery(completionBlock As Action(Of SQLiteConnection))
@@ -38,10 +38,18 @@ Module DBFunctions
                     End Using
                 End Sub)
     End Sub
-
-    Public Sub SelectQuery(sql As String, completionBlock As Action(Of ArrayList))
+    Public Sub SelectData(sql As String, completionBlock As Action(Of SQLiteDataAdapter))
         DBQuery(Sub(cn)
-                    Dim records As New ArrayList
+                    Debug.Print("Select SQL: " & sql)
+                    Using da As New SQLiteDataAdapter(sql, cn)
+                        completionBlock(da)
+                    End Using
+                End Sub)
+    End Sub
+
+    Public Sub SelectQuery(sql As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
+        DBQuery(Sub(cn)
+                    Dim records As New List(Of Dictionary(Of String, String))
                     Debug.Print("Select SQL: " & sql)
                     Using cmd As New SQLiteCommand(sql, cn)
                         Using rs As SQLiteDataReader = cmd.ExecuteReader()
@@ -100,7 +108,7 @@ Module DBFunctions
                      End Sub)
     End Sub
 
-    Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of ArrayList))
+    Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
         Dim loginQuery As String = String.Format("SELECT * FROM `tbl_admin` WHERE usrn = '{0}' And pssw = '{1}'", usrn, pssw)
 
         SelectQuery(loginQuery,

@@ -35,4 +35,10 @@ Module SMSConcernModule
     Public Function SQLInject(ByVal text As String) As String
         Return "'" & AllTrim(text).Replace("'", "''") & "'"
     End Function
+
+    Public Function pList(enumerable As IEnumerable(Of String))
+        Dim list As New List(Of String)(enumerable)
+
+        Return String.Join(",", list.ToArray)
+    End Function
 End Module
