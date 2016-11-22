@@ -74,6 +74,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Windows\CredentialEditor.xaml.vb">
+      <DependentUpon>CredentialEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\StudentListWindow.xaml.vb">
       <DependentUpon>StudentListWindow.xaml</DependentUpon>
     </Compile>
@@ -83,14 +86,17 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Modules\DBFunctions.vb" />
-    <Compile Include="SMSConcernModule.vb" />
-    <Compile Include="SMSConcernWindow.vb" />
+    <Compile Include="Modules\SMSConcernModule.vb" />
     <Compile Include="Windows\LogInWindow.xaml.vb">
       <DependentUpon>LogInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\RegistrationWindow.xaml.vb">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Windows\CredentialEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

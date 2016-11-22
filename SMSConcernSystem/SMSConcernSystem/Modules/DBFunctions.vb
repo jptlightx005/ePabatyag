@@ -89,25 +89,39 @@ Module DBFunctions
 
     Public Sub CreateContactsTable()
         Dim tableQuery As String = "CREATE TABLE `tbl_contacts` (" & _
-            "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
-            "`student_id`	TEXT NOT NULL," & _
-            "`mobile_number`	TEXT NOT NULL," & _
-            "`first_name`	TEXT NOT NULL," & _
-            "`last_name`	TEXT NOT NULL, " & _
-            "`course`	TEXT NOT NULL, " & _
-            "`year_section`	TEXT NOT NULL, " & _
-            "`gender`	TEXT NOT NULL, " & _
-            "`date_of_birth`	TEXT NOT NULL, " & _
-            "`address`	TEXT NOT NULL, " & _
-            "`email`	TEXT NOT NULL, " & _
-            "`date_registered`	TEXT NOT NULL" & _
-            ");"
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`student_id`	TEXT NOT NULL," & _
+                                    "`mobile_number`	TEXT NOT NULL," & _
+                                    "`first_name`	TEXT NOT NULL," & _
+                                    "`last_name`	TEXT NOT NULL, " & _
+                                    "`course`	TEXT NOT NULL, " & _
+                                    "`year_section`	TEXT NOT NULL, " & _
+                                    "`gender`	TEXT NOT NULL, " & _
+                                    "`date_of_birth`	TEXT NOT NULL, " & _
+                                    "`address`	TEXT NOT NULL, " & _
+                                    "`email`	TEXT NOT NULL, " & _
+                                    "`date_registered`	TEXT NOT NULL" & _
+                                    ");"
         ExecuteQuery(tableQuery,
                      Sub(createdTable)
                          Debug.Print("Created : {0}", createdTable.ToString)
                      End Sub)
     End Sub
 
+    Public Sub CreateInboxTable()
+        Dim tableQuery As String = "CREATE TABLE `tbl_inbox` (" & _
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`contact_id`	INTEGER NOT NULL," & _
+                                    "`message_content`	TEXT NOT NULL," & _
+                                    "`sender_number`	TEXT NOT NULL," & _
+                                    "`date_received`	TEXT NOT NULL" & _
+                                ");"
+        ExecuteQuery(tableQuery,
+                     Sub(createdTable)
+                         Debug.Print("Created : {0}", createdTable.ToString)
+                     End Sub)
+
+    End Sub
     Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
         Dim loginQuery As String = String.Format("SELECT * FROM `tbl_admin` WHERE usrn = '{0}' And pssw = '{1}'", usrn, pssw)
 

@@ -30,6 +30,14 @@ InitializeComponent
 	<summary>
 StudentListWindow
 </summary>
+</member><member name="M:SMSConcernSystem.CredentialEditor.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.CredentialEditor">
+	<summary>
+CredentialEditor
+</summary>
 </member><member name="M:SMSConcernSystem.LogInWindow.InitializeComponent">
 	<summary>
 InitializeComponent

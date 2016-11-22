@@ -21,3 +21,5 @@ C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSyste
 C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSystem\SMSConcernSystem\obj\Debug\Windows\RegistrationWindow.g.vb
 C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSystem\SMSConcernSystem\obj\Debug\Windows\StudentListWindow.baml
 C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSystem\SMSConcernSystem\obj\Debug\Windows\StudentListWindow.g.vb
+C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSystem\SMSConcernSystem\obj\Debug\Windows\CredentialEditor.baml
+C:\Users\Hoshizora\Dropbox\THESIS SMS-INQUIRY\sms-concern-system\SMSConcernSystem\SMSConcernSystem\obj\Debug\Windows\CredentialEditor.g.vb

@@ -10,11 +10,11 @@ none
 false
 
 
-41025024199
+5-1434892463
 
-12-359647981
+12-1882090104
 14-1657383213
-Windows\MainWindow.xaml;Windows\LogInWindow.xaml;Windows\RegistrationWindow.xaml;Windows\StudentListWindow.xaml;
+Windows\CredentialEditor.xaml;Windows\MainWindow.xaml;Windows\LogInWindow.xaml;Windows\RegistrationWindow.xaml;Windows\StudentListWindow.xaml;
 
 False
 

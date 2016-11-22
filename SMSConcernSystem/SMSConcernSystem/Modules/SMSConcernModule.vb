@@ -12,7 +12,12 @@ Module SMSConcernModule
         CheckDB()
 
         Dim app As New System.Windows.Application
-        app.Run(New LogInWindow)
+        If My.Settings.isLoggedIn Then
+            app.Run(New MainWindow)
+        Else
+            app.Run(New LogInWindow)
+        End If
+
 
     End Sub
 
@@ -25,6 +30,7 @@ Module SMSConcernModule
             SQLiteConnection.CreateFile(smsSystemDB)
             CreateAdminAccount()
             CreateContactsTable()
+            CreateInboxTable()
         End If
     End Sub
 
