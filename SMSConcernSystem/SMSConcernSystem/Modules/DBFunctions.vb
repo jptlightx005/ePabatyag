@@ -31,13 +31,6 @@ Module DBFunctions
                 End Sub)
     End Sub
 
-    Public Sub ExecuteQueryFromDictionary(sql As String, params As Dictionary(Of String, String), completionBlock As Action(Of Boolean))
-        DBQuery(Sub(cn)
-                    Using cmd As New SQLiteCommand
-
-                    End Using
-                End Sub)
-    End Sub
     Public Sub SelectData(sql As String, completionBlock As Action(Of SQLiteDataAdapter))
         DBQuery(Sub(cn)
                     Debug.Print("Select SQL: " & sql)

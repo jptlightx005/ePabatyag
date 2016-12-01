@@ -3,12 +3,12 @@ Module SMSConcernModule
     Public myDocumentsFolder As String
     Public smsSystemFolder As String
     Public smsSystemDB As String
-
+    Public smsSystemImages As String
     Sub Main()
         myDocumentsFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         smsSystemFolder = System.IO.Path.Combine(myDocumentsFolder, "ePabatyag")
         smsSystemDB = System.IO.Path.Combine(smsSystemFolder, "ePabatyag.db")
-
+        smsSystemImages = System.IO.Path.Combine(smsSystemFolder, "Contact Images")
         CheckDB()
 
         Dim app As New System.Windows.Application
@@ -24,6 +24,10 @@ Module SMSConcernModule
     Public Sub CheckDB()
         If Not System.IO.Directory.Exists(smsSystemFolder) Then
             System.IO.Directory.CreateDirectory(smsSystemFolder)
+        End If
+
+        If Not System.IO.Directory.Exists(smsSystemImages) Then
+            System.IO.Directory.CreateDirectory(smsSystemImages)
         End If
 
         If Not System.IO.File.Exists(smsSystemDB) Then

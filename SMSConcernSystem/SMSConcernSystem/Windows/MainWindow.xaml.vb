@@ -37,12 +37,19 @@ Class MainWindow
                        gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
                    End Sub)
 
-        Dim sql As String = String.Format("SELECT * FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID")
+        Dim sql As String = String.Format("SELECT tbl_inbox.*, tbl_contacts.ID as studentID, tbl_contacts.student_id, tbl_contacts.mobile_number, tbl_contacts.first_name, tbl_contacts.last_name, tbl_contacts.course, tbl_contacts.year_section FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID")
 
         SelectQuery(sql, Sub(result)
                              messageList = result
                          End Sub)
 
         gridInbox.IsReadOnly = True
+    End Sub
+
+    Private Sub gridInboxRow_DoubleClick(sender As Object, e As MouseButtonEventArgs)
+        Debug.Print(String.Format("Did select row number: {0}", gridInbox.SelectedIndex))
+        Dim messageWindow As New ViewMessageWindow
+        messageWindow.selectedMessage = messageList(gridInbox.SelectedIndex)
+        messageWindow.ShowDialog()
     End Sub
 End Class

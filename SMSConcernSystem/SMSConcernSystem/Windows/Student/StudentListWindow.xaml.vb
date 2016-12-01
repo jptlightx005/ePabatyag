@@ -1,9 +1,8 @@
 ﻿Imports System.Data
 Public Class StudentListWindow
-    Public studentList As List(Of Dictionary(Of String, String))
+    Public studentList As List(Of ContactInformation)
     Private Sub btnAdd_Click(sender As Object, e As RoutedEventArgs) Handles btnAdd.Click
         Dim regWindow As New RegistrationWindow
-        regWindow.isFromStudentList = True
         regWindow.parentForm = Me
         regWindow.ShowDialog()
     End Sub
@@ -13,8 +12,8 @@ Public Class StudentListWindow
         Dim currentRowIndex = gridStudents.Items.IndexOf(gridStudents.SelectedItem)
         Debug.Print(currentRowIndex)
         If (currentRowIndex >= 0 Or currentRowIndex < gridStudents.Items.Count) Then
-            regWindow.selectedStudent = studentList(currentRowIndex)
-            regWindow.isFromStudentList = True
+            regWindow.contactInfo = studentList(currentRowIndex)
+            regWindow.isUpdating = True
             regWindow.parentForm = Me
             regWindow.ShowDialog()
         End If
@@ -43,10 +42,32 @@ Public Class StudentListWindow
                        gridStudents.ItemsSource = dataSet.Tables(0).DefaultView
                    End Sub)
 
-        Dim sql As String = String.Format("SELECT * FROM tbl_contacts")
-
+        Dim sql As String = "SELECT * FROM tbl_contacts"
+        
         SelectQuery(sql, Sub(result)
-                             studentList = result
+                             studentList = New List(Of ContactInformation)
+                             For Each student In result
+                                 Dim studentInfo As New ContactInformation
+                                 studentInfo.ID = student("ID")
+                                 studentInfo.studentID = student("student_id")
+                                 studentInfo.contactNo = student("mobile_number")
+                                 studentInfo.firstName = student("first_name")
+                                 studentInfo.lastName = student("last_name")
+                                 studentInfo.course = student("course")
+                                 studentInfo.yearSection = student("year_section")
+                                 studentInfo.gender = student("gender")
+                                 If Not student("date_of_birth") = "" Then
+                                     studentInfo.dateOfBirth = Date.Parse(student("date_of_birth"))
+                                 End If
+                                 studentInfo.address = student("address")
+                                 studentInfo.email = student("email")
+                                 studentList.Add(studentInfo)
+                                 Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", studentInfo.ID))
+                                 If (System.IO.File.Exists(imageSource)) Then
+                                     studentInfo.contactImageSource = imageSource
+                                 End If
+                             Next
+                             Debug.Print("Student list count is {0}", studentList.Count)
                          End Sub)
 
         gridStudents.IsReadOnly = True

@@ -3,7 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid Background="#FFB2D6F9">
-        <DataGrid x:Name="gridInbox" Margin="10,37,10,10" FontSize="14"/>
+        <DataGrid x:Name="gridInbox" Margin="10,37,10,10" FontSize="14" IsReadOnly="True">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="gridInboxRow_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
         <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,10,10,0" FontSize="14"/>
         <Button x:Name="btnRegister" Content="Register" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,10,0,0" FontSize="14"/>
         <Button x:Name="btnStudentList" Content="Student List" HorizontalAlignment="Left" VerticalAlignment="Top" Width="87" Margin="90,10,0,0" FontSize="14"/>

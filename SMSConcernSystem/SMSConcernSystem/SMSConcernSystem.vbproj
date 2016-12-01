@@ -59,6 +59,7 @@
     <Reference Include="System.Data.SQLite">
       <HintPath>..\..\..\dependencies\sqlite-netFx20-binary-bundle-Win32-2005-1.0.103.0\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -74,11 +75,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Windows\CredentialEditor.xaml.vb">
+    <Compile Include="Model\ContactInformation.vb" />
+    <Compile Include="My Project\Resources1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Login\CredentialEditor.xaml.vb">
       <DependentUpon>CredentialEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\StudentListWindow.xaml.vb">
+    <Compile Include="Windows\Student\StudentListWindow.xaml.vb">
       <DependentUpon>StudentListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Message\ViewMessageWindow.xaml.vb">
+      <DependentUpon>ViewMessageWindow.xaml</DependentUpon>
     </Compile>
     <None Include="app.config" />
     <None Include="Application.xaml">
@@ -87,13 +97,13 @@
     </None>
     <Compile Include="Modules\DBFunctions.vb" />
     <Compile Include="Modules\SMSConcernModule.vb" />
-    <Compile Include="Windows\LogInWindow.xaml.vb">
+    <Compile Include="Windows\Login\LogInWindow.xaml.vb">
       <DependentUpon>LogInWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\RegistrationWindow.xaml.vb">
+    <Compile Include="Windows\Student\RegistrationWindow.xaml.vb">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Windows\CredentialEditor.xaml">
+    <Page Include="Windows\Login\CredentialEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,15 +119,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Windows\LogInWindow.xaml">
+    <Page Include="Windows\Login\LogInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\RegistrationWindow.xaml">
+    <Page Include="Windows\Student\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\StudentListWindow.xaml">
+    <Page Include="Windows\Student\StudentListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Message\ViewMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,8 +174,8 @@
     </Compile>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
@@ -169,6 +183,12 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\placeholder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

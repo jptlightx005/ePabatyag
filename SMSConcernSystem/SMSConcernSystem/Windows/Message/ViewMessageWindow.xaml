@@ -1,0 +1,12 @@
+﻿<Window x:Class="ViewMessageWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="ViewMessageWindow" Height="312" Width="489" FontSize="14" Loaded="Window_Loaded">
+    <Grid Background="#FFB2D6F9">
+        <TextBox x:Name="txtSender" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" Margin="75,12,0,0" Text="John Smith" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" ToolTip="View sender details" IsReadOnly="True"/>
+        <Label Content="Sender: " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <Label Content="Message" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,44,0,0"/>
+        <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="226" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" Margin="75,46,0,0" IsReadOnly="True"/>
+
+    </Grid>
+</Window>

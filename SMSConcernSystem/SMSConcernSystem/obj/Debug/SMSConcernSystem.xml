@@ -6,31 +6,7 @@ SMSConcernSystem
 </name>
 </assembly>
 <members>
-<member name="M:SMSConcernSystem.RegistrationWindow.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:SMSConcernSystem.RegistrationWindow">
-	<summary>
-RegistrationWindow
-</summary>
-</member><member name="M:SMSConcernSystem.MainWindow.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:SMSConcernSystem.MainWindow">
-	<summary>
-MainWindow
-</summary>
-</member><member name="M:SMSConcernSystem.StudentListWindow.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:SMSConcernSystem.StudentListWindow">
-	<summary>
-StudentListWindow
-</summary>
-</member><member name="M:SMSConcernSystem.CredentialEditor.InitializeComponent">
+<member name="M:SMSConcernSystem.CredentialEditor.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
@@ -46,6 +22,55 @@ InitializeComponent
 	<summary>
 LogInWindow
 </summary>
+</member><member name="M:SMSConcernSystem.StudentListWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.StudentListWindow">
+	<summary>
+StudentListWindow
+</summary>
+</member><member name="M:SMSConcernSystem.MainWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.MainWindow">
+	<summary>
+MainWindow
+</summary>
+</member><member name="M:SMSConcernSystem.ViewMessageWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.ViewMessageWindow">
+	<summary>
+ViewMessageWindow
+</summary>
+</member><member name="M:SMSConcernSystem.RegistrationWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.RegistrationWindow">
+	<summary>
+RegistrationWindow
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.image_placeholder">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="T:SMSConcernSystem.My.Resources.Resources1">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
 </member><member name="P:SMSConcernSystem.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -54,6 +79,10 @@ LogInWindow
 	<summary>
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources.image_placeholder">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="T:SMSConcernSystem.My.Resources.Resources">
 	<summary>
