@@ -84,6 +84,9 @@
     <Compile Include="Windows\Login\CredentialEditor.xaml.vb">
       <DependentUpon>CredentialEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Message\ComposeMessageWindow.xaml.vb">
+      <DependentUpon>ComposeMessageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Student\StudentListWindow.xaml.vb">
       <DependentUpon>StudentListWindow.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\Login\LogInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Message\ComposeMessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

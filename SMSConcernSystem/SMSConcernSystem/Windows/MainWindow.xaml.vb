@@ -52,4 +52,12 @@ Class MainWindow
         messageWindow.selectedMessage = messageList(gridInbox.SelectedIndex)
         messageWindow.ShowDialog()
     End Sub
+
+    Private Sub btnRead_Click(sender As Object, e As RoutedEventArgs) Handles btnRead.Click
+        If gridInbox.SelectedIndex >= 0 Then
+            Dim messageWindow As New ViewMessageWindow
+            messageWindow.selectedMessage = messageList(gridInbox.SelectedIndex)
+            messageWindow.ShowDialog()
+        End If
+    End Sub
 End Class

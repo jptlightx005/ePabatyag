@@ -17,9 +17,39 @@
     Private Sub txtSender_PreviewMouseUp(sender As Object, e As MouseButtonEventArgs) Handles txtSender.PreviewMouseUp
         Debug.Print("did click")
         Dim query As String = String.Format("SELECT * FROM tbl_contacts WHERE ID = {0}", selectedMessage("studentID"))
+        LookUpStudent(Sub(contact)
+                          Dim regWindow As New RegistrationWindow
+                          Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", contact.ID))
+
+                          If (System.IO.File.Exists(imageSource)) Then
+                              contact.contactImageSource = imageSource
+                          End If
+
+                          regWindow.contactInfo = contact
+
+                          regWindow.isUpdating = True
+                          regWindow.parentForm = Me
+                          regWindow.ShowDialog()
+                      End Sub)
+    End Sub
+
+    Private Sub btnRespond_Click(sender As Object, e As RoutedEventArgs) Handles btnRespond.Click
+
+
+        Debug.Print("did click")
+        LookUpStudent(Sub(contact)
+                          Dim recipients As New List(Of ContactInformation)
+                          recipients.Add(contact)
+                          Dim composeMessageWindow As New ComposeMessageWindow
+                          composeMessageWindow.recipients = recipients
+                          composeMessageWindow.ShowDialog()
+                      End Sub)
+    End Sub
+
+    Private Sub LookUpStudent(completionBlock As Action(Of ContactInformation))
+        Dim query As String = String.Format("SELECT * FROM tbl_contacts WHERE ID = {0}", selectedMessage("studentID"))
         SelectQuery(query, Sub(result)
                                If result.Count > 0 Then
-                                   Dim regWindow As New RegistrationWindow
                                    Dim student = result.First
                                    Dim studentInfo As New ContactInformation
                                    studentInfo.ID = student("ID")
@@ -36,16 +66,7 @@
                                    studentInfo.address = student("address")
                                    studentInfo.email = student("email")
 
-                                   Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", studentInfo.ID))
-                                   If (System.IO.File.Exists(imageSource)) Then
-                                       studentInfo.contactImageSource = imageSource
-                                   End If
-
-                                   regWindow.contactInfo = studentInfo
-
-                                   regWindow.isUpdating = True
-                                   regWindow.parentForm = Me
-                                   regWindow.ShowDialog()
+                                   completionBlock(studentInfo)
                                Else
                                    MsgBox("ERROR! STUDENT NOT FOUND!", vbOK + vbExclamation)
                                End If
