@@ -3,16 +3,21 @@ Module SMSConcernModule
     Public myDocumentsFolder As String
     Public smsSystemFolder As String
     Public smsSystemDB As String
-
+    Public smsSystemImages As String
     Sub Main()
         myDocumentsFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         smsSystemFolder = System.IO.Path.Combine(myDocumentsFolder, "ePabatyag")
         smsSystemDB = System.IO.Path.Combine(smsSystemFolder, "ePabatyag.db")
-
+        smsSystemImages = System.IO.Path.Combine(smsSystemFolder, "Contact Images")
         CheckDB()
 
         Dim app As New System.Windows.Application
-        app.Run(New LogInWindow)
+        If My.Settings.isLoggedIn Then
+            app.Run(New MainWindow)
+        Else
+            app.Run(New LogInWindow)
+        End If
+
 
     End Sub
 
@@ -21,10 +26,15 @@ Module SMSConcernModule
             System.IO.Directory.CreateDirectory(smsSystemFolder)
         End If
 
+        If Not System.IO.Directory.Exists(smsSystemImages) Then
+            System.IO.Directory.CreateDirectory(smsSystemImages)
+        End If
+
         If Not System.IO.File.Exists(smsSystemDB) Then
             SQLiteConnection.CreateFile(smsSystemDB)
             CreateAdminAccount()
             CreateContactsTable()
+            CreateInboxTable()
         End If
     End Sub
 

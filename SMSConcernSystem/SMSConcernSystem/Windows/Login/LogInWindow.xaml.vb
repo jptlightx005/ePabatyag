@@ -5,6 +5,14 @@ Public Class LogInWindow
               Sub(result)
                   If (result.Count > 0) Then
                       MessageBox.Show("Successfully logged in!", "Log-in", MessageBoxButton.OK, MessageBoxImage.Information)
+                      My.Settings.isLoggedIn = True
+                      Dim user As Dictionary(Of String, String)
+                      user = result.First
+                      My.Settings.usrn = user("usrn")
+                      My.Settings.pssw = user("pssw")
+                      My.Settings.adminID = user("ID")
+                      My.Settings.isLoggedIn = True
+                      My.Settings.Save()
                       Dim mainWindow As New MainWindow
                       mainWindow.Show()
                       Me.Close()
