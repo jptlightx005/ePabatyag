@@ -100,6 +100,18 @@ Partial Friend NotInheritable Class MySettings
             Me("adminID") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(), _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     Global.System.Configuration.DefaultSettingValueAttribute("")> _
+    Public Property smsDevicePort() As String
+        Get
+            Return CType(Me("smsDevicePort"), String)
+        End Get
+        Set(value As String)
+            Me("smsDevicePort") = value
+        End Set
+    End Property
 End Class
 
 Namespace My

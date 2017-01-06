@@ -1,7 +1,7 @@
 ﻿<Window x:Class="StudentListWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="StudentList" Height="344.154" Width="659.125" Loaded="Window_Loaded">
+    Title="StudentList" Height="344.154" Width="659.125" Loaded="Window_Loaded" Closing="Window_Closing" Icon="/SMSConcernSystem;component/WVSU-PC Logo.ico">
     <Grid Background="#FFB2D6F9">
         <DataGrid x:Name="gridStudents" Margin="10,37,10,10" FontSize="14">
         </DataGrid>
