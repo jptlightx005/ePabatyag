@@ -1,21 +1,6 @@
 ﻿Imports System.Data
 Class MainWindow
     Dim messageList As List(Of Dictionary(Of String, String))
-    Private Sub btnRegister_Click(sender As Object, e As RoutedEventArgs) Handles btnRegister.Click
-        Dim regWindow As New RegistrationWindow
-        regWindow.ShowDialog()
-    End Sub
-
-    Private Sub btnLogout_Click(sender As Object, e As RoutedEventArgs) Handles btnLogout.Click
-        Dim loginWindow As New LogInWindow
-        loginWindow.Show()
-        Me.Close()
-    End Sub
-
-    Private Sub btnStudentList_Click(sender As Object, e As RoutedEventArgs) Handles btnStudentList.Click
-        Dim studentListWindow As New StudentListWindow
-        studentListWindow.ShowDialog()
-    End Sub
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         UpdateTable()
@@ -59,5 +44,33 @@ Class MainWindow
             messageWindow.selectedMessage = messageList(gridInbox.SelectedIndex)
             messageWindow.ShowDialog()
         End If
+    End Sub
+
+    Private Sub mnu_logout_Click(sender As Object, e As RoutedEventArgs) Handles mnu_logout.Click
+        Dim loginWindow As New LogInWindow
+        My.Settings.isLoggedIn = False
+        My.Settings.Save()
+        loginWindow.Show()
+        Me.Close()
+    End Sub
+
+    Private Sub mnu_register_Click(sender As Object, e As RoutedEventArgs) Handles mnu_register.Click
+        Dim regWindow As New RegistrationWindow
+        regWindow.ShowDialog()
+    End Sub
+
+    Private Sub mnu_studentlist_Click(sender As Object, e As RoutedEventArgs) Handles mnu_studentlist.Click
+        Dim studentListWindow As New StudentListWindow
+        studentListWindow.ShowDialog()
+    End Sub
+
+    Private Sub mnuSettings_Click(sender As Object, e As RoutedEventArgs) Handles mnuSettings.Click
+        Dim settingsWindow As New SettingsWindow
+        settingsWindow.ShowDialog()
+    End Sub
+
+    Private Sub btnGetMessages_Click(sender As Object, e As RoutedEventArgs) Handles btnGetMessages.Click
+        GetAllUnreadMessages()
+
     End Sub
 End Class

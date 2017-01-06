@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ComposeMessageWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="ComposeMessageWindow" Height="322" Width="488" Loaded="Window_Loaded">
+    Title="ComposeMessageWindow" Height="322" Width="488" Loaded="Window_Loaded" Icon="/SMSConcernSystem;component/WVSU-PC Logo.ico">
     <Grid Background="#FFB2D6F9">
         <TextBox x:Name="txtRecipients" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Margin="79,16,10,0" Text="John Smith" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" ToolTip="View sender details" IsReadOnly="True" FontSize="14"/>
         <Label Content="To:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="33,14,0,0" HorizontalContentAlignment="Right" Width="37" FontSize="14"/>

@@ -46,6 +46,14 @@ InitializeComponent
 	<summary>
 MainWindow
 </summary>
+</member><member name="M:SMSConcernSystem.SettingsWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:SMSConcernSystem.SettingsWindow">
+	<summary>
+SettingsWindow
+</summary>
 </member><member name="M:SMSConcernSystem.ViewMessageWindow.InitializeComponent">
 	<summary>
 InitializeComponent
@@ -71,7 +79,23 @@ RegistrationWindow
   Overrides the current thread's CurrentUICulture property for all
   resource lookups using this strongly typed resource class.
 </summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.connected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:SMSConcernSystem.My.Resources.Resources1.image_placeholder">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.not_connected">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.wvsu_logo">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.WVSU_PC_Logo">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

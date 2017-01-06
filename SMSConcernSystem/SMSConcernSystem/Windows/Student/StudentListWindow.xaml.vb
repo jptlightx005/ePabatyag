@@ -82,4 +82,8 @@ Public Class StudentListWindow
             btnDelete.IsEnabled = False
         End If
     End Sub
+
+    Private Sub Window_Closing(sender As Object, e As ComponentModel.CancelEventArgs)
+
+    End Sub
 End Class

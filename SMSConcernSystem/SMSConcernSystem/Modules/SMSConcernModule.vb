@@ -10,6 +10,7 @@ Module SMSConcernModule
         smsSystemDB = System.IO.Path.Combine(smsSystemFolder, "ePabatyag.db")
         smsSystemImages = System.IO.Path.Combine(smsSystemFolder, "Contact Images")
         CheckDB()
+        LoadSettings()
 
         Dim app As New System.Windows.Application
         If My.Settings.isLoggedIn Then
@@ -17,10 +18,14 @@ Module SMSConcernModule
         Else
             app.Run(New LogInWindow)
         End If
-
-
     End Sub
 
+    Public Sub LoadSettings()
+        smsDevicePort = My.Settings.smsDevicePort
+        InitGSM()
+        Debug.Print("Loaded Setting")
+        Debug.Print("Device port: {0}", smsDevicePort)
+    End Sub
     Public Sub CheckDB()
         If Not System.IO.Directory.Exists(smsSystemFolder) Then
             System.IO.Directory.CreateDirectory(smsSystemFolder)
