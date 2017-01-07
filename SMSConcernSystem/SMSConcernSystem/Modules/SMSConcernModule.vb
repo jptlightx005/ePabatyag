@@ -4,6 +4,7 @@ Module SMSConcernModule
     Public smsSystemFolder As String
     Public smsSystemDB As String
     Public smsSystemImages As String
+
     Sub Main()
         myDocumentsFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         smsSystemFolder = System.IO.Path.Combine(myDocumentsFolder, "ePabatyag")
@@ -26,6 +27,7 @@ Module SMSConcernModule
         Debug.Print("Loaded Setting")
         Debug.Print("Device port: {0}", smsDevicePort)
     End Sub
+
     Public Sub CheckDB()
         If Not System.IO.Directory.Exists(smsSystemFolder) Then
             System.IO.Directory.CreateDirectory(smsSystemFolder)
@@ -40,6 +42,7 @@ Module SMSConcernModule
             CreateAdminAccount()
             CreateContactsTable()
             CreateInboxTable()
+            CreateRawInboxTable()
         End If
     End Sub
 
