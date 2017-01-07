@@ -25,7 +25,9 @@ Module SMSFunctions
             Catch ex As Exception
                 Dim errMessage = String.Format("Connection error: {0}", ex.Message)
                 MsgBox(errMessage, vbOKOnly + vbExclamation, "Connection Failed")
-                smsComm.Close()
+                If smsComm.IsOpen Then
+                    smsComm.Close()
+                End If
             End Try
         End If
     End Sub
@@ -65,11 +67,12 @@ Module SMSFunctions
         Return allMessages
     End Function
 
-    Public Function GetAllUnreadMessages() As List(Of DecodedShortMessage)
-        Dim unreadMessages As New List(Of DecodedShortMessage)
+    Public Function GetAllUnreadMessages() As List(Of SmsDeliverPdu)
+        Dim rawUnreadMessages As New List(Of DecodedShortMessage)
+        Dim unreadMessages As New List(Of SmsDeliverPdu)
         Try
-            unreadMessages = smsComm.ReadMessages(PhoneMessageStatus.ReceivedUnread, PhoneStorageType.Sim).ToList
-            For Each message In unreadMessages
+            rawUnreadMessages = smsComm.ReadMessages(PhoneMessageStatus.ReceivedUnread, PhoneStorageType.Sim).ToList
+            For Each message In rawUnreadMessages
                 Dim data As SmsDeliverPdu = TryCast(message.Data, SmsDeliverPdu)
 
                 Debug.Print("RECEIVED MESSAGE")
@@ -78,6 +81,7 @@ Module SMSFunctions
                 Debug.Print("Message: {0}", data.UserDataText)
                 Debug.Print("-------------------------------------------------------------------")
 
+                unreadMessages.Add(data)
             Next
         Catch ex As Exception
 
@@ -87,14 +91,19 @@ Module SMSFunctions
 
     Public Function ConvertToCountryCodedNumber(mobileNumber As String) As String
         Dim newMobileNumber As String = mobileNumber
-        If newMobileNumber.StartsWith("09") And newMobileNumber.Length = 11 Then
-            newMobileNumber.Remove(0, 2)
-            newMobileNumber.Insert(0, "+639")
+        Debug.Print("Original: {0}", mobileNumber)
+        If newMobileNumber.StartsWith("09") Then
+            Debug.Print("Starts with 09")
+            newMobileNumber = newMobileNumber.Remove(0, 2)
+            newMobileNumber = newMobileNumber.Insert(0, "+639")
         ElseIf newMobileNumber.StartsWith("639") Then
-            newMobileNumber.Remove(0, 3)
-            newMobileNumber.Insert(0, "+639")
+            Debug.Print("Starts with 639")
+            newMobileNumber = newMobileNumber.Remove(0, 3)
+            newMobileNumber = newMobileNumber.Insert(0, "+639")
         End If
+        Debug.Print("Converted: {0}", newMobileNumber)
         Return newMobileNumber
+
     End Function
 End Module
 

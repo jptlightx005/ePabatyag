@@ -115,6 +115,21 @@ Module DBFunctions
                      End Sub)
 
     End Sub
+
+    Public Sub CreateRawInboxTable()
+        Dim tableQuery As String = "CREATE TABLE `tbl_raw_inbox` (" & _
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`sender`	TEXT NOT NULL," & _
+                                    "`message`	TEXT NOT NULL," & _
+                                    "`date_sent`	TEXT NOT NULL" & _
+                                ");"
+        ExecuteQuery(tableQuery,
+                     Sub(createdTable)
+                         Debug.Print("Created : {0}", createdTable.ToString)
+                     End Sub)
+
+    End Sub
+
     Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
         Dim loginQuery As String = String.Format("SELECT * FROM `tbl_admin` WHERE usrn = '{0}' And pssw = '{1}'", usrn, pssw)
 
