@@ -22,10 +22,8 @@ Module SMSConcernModule
     End Sub
 
     Public Sub LoadSettings()
-        smsDevicePort = My.Settings.smsDevicePort
-        InitGSM()
         Debug.Print("Loaded Setting")
-        Debug.Print("Device port: {0}", smsDevicePort)
+        Debug.Print("Device port: {0}", My.Settings.smsDevicePort)
     End Sub
 
     Public Sub CheckDB()

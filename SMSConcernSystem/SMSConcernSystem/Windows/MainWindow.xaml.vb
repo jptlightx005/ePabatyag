@@ -1,13 +1,24 @@
 ﻿Imports GsmComm.PduConverter
 Imports System.Data
 Imports System.Data.SQLite
+Imports System.ComponentModel
+Imports System.Windows.Threading
 Class MainWindow
     Dim messageList As List(Of Dictionary(Of String, String))
-
+    Dim WithEvents deviceChecker As BackgroundWorker
+    Dim WithEvents timerChecker As DispatcherTimer
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         UpdateTable()
+        timerChecker = New DispatcherTimer
+        deviceChecker = New BackgroundWorker
+        timerChecker.Interval = New TimeSpan(0, 0, 0, 1, 0)
+        timerChecker.Start()
     End Sub
-
+    Private Sub timerChecker_Tick() Handles timerChecker.Tick
+        If Not deviceChecker.IsBusy Then
+            deviceChecker.RunWorkerAsync()
+        End If
+    End Sub
     Private Sub UpdateTable()
         Dim selectStudentsQuery As String = "SELECT tbl_contacts.student_id As `Student ID`," & _
                                             "(first_name || ' ' || last_name) AS `Name`," & _
@@ -67,17 +78,8 @@ Class MainWindow
     End Sub
 
     Private Sub mnuSettings_Click(sender As Object, e As RoutedEventArgs) Handles mnuSettings.Click
-        Dim settingsWindow As New SettingsWindow
-        settingsWindow.ShowDialog()
-    End Sub
-
-    Private Sub btnGetMessages_Click(sender As Object, e As RoutedEventArgs) Handles btnGetMessages.Click
-        Dim unreadMessages = GetAllUnreadMessages()
-        If unreadMessages.Count > 0 Then
-            For Each message In unreadMessages
-                SaveRawMessage(message)
-            Next
-        End If
+        'Dim settingsWindow As New SettingsWindow
+        'settingsWindow.ShowDialog()
     End Sub
 
     Private Sub SaveRawMessage(message As SmsDeliverPdu)
@@ -133,7 +135,10 @@ Class MainWindow
         ExecuteQuery(sqlBuilder.ToString, Sub(result)
                                               If result Then
                                                   Debug.Print("Filtered a message and stored to inbox")
-                                                  UpdateTable()
+                                                  Dispatcher.Invoke(Sub()
+                                                                        MessageAlertTone()
+                                                                        UpdateTable()
+                                                                    End Sub)
                                               Else
                                                   Debug.Print("Filtered a message but failed to store to inbox")
                                               End If
@@ -143,5 +148,66 @@ Class MainWindow
     Private Sub gridInbox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles gridInbox.SelectionChanged
         Debug.Print("Selected index {0}", gridInbox.SelectedIndex)
         btnRead.IsEnabled = gridInbox.SelectedIndex >= 0
+    End Sub
+
+    Private Sub deviceChecker_DoWork() Handles deviceChecker.DoWork
+        If Not smsDeviceConnected Then
+            Dim savedPort = My.Settings.smsDevicePort
+            If savedPort = String.Empty Then
+                Dim ports = GetPorts()
+                Dim portIndex = -1
+                For Each port In ports
+                    smsDeviceConnected = PortHasDevice(port)
+                    If smsDeviceConnected Then
+                        My.Settings.smsDevicePort = port
+                        My.Settings.Save()
+                        Dispatcher.Invoke(Sub()
+                                              imgConnected.Visibility = Windows.Visibility.Visible
+                                              lblConnected.Content = "Connected"
+                                          End Sub)
+                        Exit Sub
+                    Else
+                        Dispatcher.Invoke(Sub()
+                                              imgConnected.Visibility = Windows.Visibility.Hidden
+                                              lblConnected.Content = "Not Connected"
+                                          End Sub)
+                    End If
+                Next
+            Else
+                smsDeviceConnected = PortHasDevice(savedPort)
+                If smsDeviceConnected Then
+                    Dispatcher.Invoke(Sub()
+                                          imgConnected.Visibility = Windows.Visibility.Visible
+                                          lblConnected.Content = "Connected"
+                                      End Sub)
+                    Exit Sub
+                Else
+                    My.Settings.smsDevicePort = ""
+                    My.Settings.Save()
+                    Dispatcher.Invoke(Sub()
+                                          imgConnected.Visibility = Windows.Visibility.Hidden
+                                          lblConnected.Content = "Not Connected"
+                                      End Sub)
+                End If
+            End If
+            
+        Else
+            Debug.Print("Retrieving Messages...")
+            Dim unreadMessages = GetAllUnreadMessages()
+            If unreadMessages.Count > 0 Then
+                For Each message In unreadMessages
+                    SaveRawMessage(message)
+                Next
+            End If
+        End If
+    End Sub
+
+    Private Sub MessageAlertTone()
+        My.Computer.Audio.Play("Resources\sos_ringtone.wav", AudioPlayMode.Background)
+    End Sub
+
+    Private Sub lblConnected_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles lblConnected.MouseUp
+        'use this to test codes tee hee
+        'MessageAlertTone()
     End Sub
 End Class

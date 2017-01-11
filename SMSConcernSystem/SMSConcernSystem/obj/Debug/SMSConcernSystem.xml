@@ -91,6 +91,10 @@ RegistrationWindow
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:SMSConcernSystem.My.Resources.Resources1.sos_ringtone">
+	<summary>
+  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+</summary>
 </member><member name="P:SMSConcernSystem.My.Resources.Resources1.wvsu_logo">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
