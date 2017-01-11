@@ -56,7 +56,7 @@ Namespace My.Resources
                 Return resourceCulture
             End Get
             Set(value As Global.System.Globalization.CultureInfo)
-                resourceCulture = Value
+                resourceCulture = value
             End Set
         End Property
 
@@ -87,6 +87,15 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("not_connected", resourceCulture)
                 Return CType(obj, System.Drawing.Bitmap)
+            End Get
+        End Property
+
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property sos_ringtone() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("sos_ringtone", resourceCulture)
             End Get
         End Property
 

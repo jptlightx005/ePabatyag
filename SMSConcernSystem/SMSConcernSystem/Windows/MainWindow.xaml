@@ -26,7 +26,11 @@
             </Menu>
             <StackPanel></StackPanel>
         </DockPanel>
-        <Button x:Name="btnGetMessages" Content="Get Unread Messages" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="132" Margin="10,0,0,10"/>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Height="22">
+            <Image Source="pack://siteoforigin:,,,/Resources/not connected.png" HorizontalAlignment="Left" Width="12" Height="12" VerticalAlignment="Center" Margin="0"/>
+            <Image x:Name="imgConnected" Source="pack://siteoforigin:,,,/Resources/connected.png" HorizontalAlignment="Left" Width="12" Height="12" VerticalAlignment="Center" Margin="0" Visibility="Hidden" />
+            <Label x:Name="lblConnected" Content="Not Connected" VerticalAlignment="Center" Margin="15,0,0,0" Height="24"/>
+        </Grid>
 
     </Grid>
 </Window>

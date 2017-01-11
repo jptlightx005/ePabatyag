@@ -4,29 +4,34 @@ Imports System.IO
 Imports System.Threading
 Imports System.IO.Ports
 Module SMSFunctions
-    Public smsDeviceConnected As Boolean
+    Public smsDevicePort As String
     Public smsComm As GsmCommMain
 
-    Public Function InitGSM(port As String) As Boolean
-        smsComm = New GsmCommMain(port)
-        Try
-            smsComm.Open()
-            While Not smsComm.IsConnected
-                Debug.Print("Trying to connect...")
-                smsComm.Close()
-                Return False
-            End While
-            Debug.Print("Connected...")
-            Return True
-        Catch ex As Exception
-            Dim errMessage = String.Format("Connection error: {0}", ex.Message)
-            Debug.Print(errMessage)
-            If smsComm.IsOpen Then
-                smsComm.Close()
-            End If
-            Return False
-        End Try
-    End Function
+    Public Sub InitGSM()
+        smsComm = New GsmCommMain
+        If Not smsDevicePort = String.Empty Then
+            smsComm = New GsmCommMain(smsDevicePort)
+            Try
+                smsComm.Open()
+                While Not smsComm.IsConnected
+                    Dim a = MsgBox("No device is connected on the current port.", vbRetryCancel + vbExclamation, "Connection Setup")
+                    If a = vbCancel Then
+                        smsDevicePort = ""
+                        My.Settings.smsDevicePort = smsDevicePort
+                        My.Settings.Save()
+                        smsComm.Close()
+                        Exit Sub
+                    End If
+                End While
+            Catch ex As Exception
+                Dim errMessage = String.Format("Connection error: {0}", ex.Message)
+                MsgBox(errMessage, vbOKOnly + vbExclamation, "Connection Failed")
+                If smsComm.IsOpen Then
+                    smsComm.Close()
+                End If
+            End Try
+        End If
+    End Sub
     Public Function GetPorts() As List(Of String)
         ' Get a list of serial port names.
         Dim ports As List(Of String) = SerialPort.GetPortNames().ToList
@@ -43,28 +48,6 @@ Module SMSFunctions
         Return ports
     End Function
 
-    Public Function PortHasDevice(portName As String) As Boolean
-        Dim port As New SerialPort(portName)
-        'If port.IsOpen Then
-        Dim comm As New GsmCommMain(portName)
-        Dim info As IdentificationInfo
-        Try
-            comm.Open()
-            info = comm.IdentifyDevice()
-            comm.Close()
-            Return InitGSM(portName)
-        Catch ex As Exception
-            Debug.Print("{0} has no device connected!", portName)
-            If comm.IsOpen() Then
-                comm.Close()
-            End If
-            Return False
-        End Try
-        'Else
-        'Debug.Print("{0} is not available.", portName)
-        'Return False
-        'End If
-    End Function
     Public Function GetAllMessages() As List(Of DecodedShortMessage)
         Dim allMessages As New List(Of DecodedShortMessage)
         Try
@@ -102,27 +85,11 @@ Module SMSFunctions
                 unreadMessages.Add(data)
             Next
         Catch ex As Exception
-            smsDeviceConnected = False
-            Debug.Print("Device has been removed!")
+
         End Try
         Return unreadMessages
     End Function
 
-    Public Function SendMessage(message As String, contacts As List(Of ContactInformation)) As Boolean
-        Dim newMessages As New List(Of SmsSubmitPdu)
-        For Each contact In contacts
-            Dim newMessage As New SmsSubmitPdu("message", contact.contactNo)
-            newMessages.Add(newMessage)
-        Next
-        Try
-            Debug.Print("Sending...")
-            smsComm.SendMessages(newMessages.ToArray)
-            Return True
-        Catch ex As Exception
-            Debug.Print("Failed to send!")
-            Return False
-        End Try
-    End Function
     Public Function ConvertToCountryCodedNumber(mobileNumber As String) As String
         Dim newMobileNumber As String = mobileNumber
         Debug.Print("Original: {0}", mobileNumber)

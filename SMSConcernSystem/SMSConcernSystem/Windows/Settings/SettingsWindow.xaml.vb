@@ -31,7 +31,9 @@ Public Class SettingsWindow
                 comm.Close()
             Catch ex As Exception
                 portText = port
-                comm.Close()
+                If comm.IsOpen() Then
+                    comm.Close()
+                End If
             End Try
             menuItem.Content = portText
             cmbDevices.Items.Add(menuItem)
@@ -42,18 +44,18 @@ Public Class SettingsWindow
     Private Sub btnSave_Click(sender As Object, e As RoutedEventArgs) Handles btnSave.Click
         'Device Selection
         If cmbDevices.SelectedIndex >= 0 Then
-            If portHasDevice Then
-                My.Settings.smsDevicePort = selectedPort
-                My.Settings.Save()
-                smsDevicePort = selectedPort
-                smsComm = New GsmCommMain(smsDevicePort)
-                Try
-                    smsComm.Open()
-                Catch ex As Exception
-                    smsComm.Close()
-                    MsgBox("Error has occured while connecting!", vbExclamation, "Connection Error")
-                End Try
-            End If
+            'If portHasDevice Then
+            '    My.Settings.smsDevicePort = selectedPort
+            '    My.Settings.Save()
+            '    smsDevicePort = selectedPort
+            '    smsComm = New GsmCommMain(smsDevicePort)
+            '    Try
+            '        smsComm.Open()
+            '    Catch ex As Exception
+            '        smsComm.Close()
+            '        MsgBox("Error has occured while connecting!", vbExclamation, "Connection Error")
+            '    End Try
+            'End If
         End If
         Me.Close()
     End Sub
