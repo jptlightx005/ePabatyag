@@ -91,6 +91,14 @@ Public Class RegistrationWindow
         ExecuteQuery(registerQuery, Sub(success)
                                         If (success) Then
                                             MsgBox("Contact succesfully updated!", vbInformation)
+                                            If Not imgContactImage.Source Is defaultImageSource Then
+                                                contactInfo.contactImageSource = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", contactInfo.ID))
+                                                Dim encoder As New PngBitmapEncoder()
+                                                encoder.Frames.Add(BitmapFrame.Create(CType(imgContactImage.Source, BitmapSource)))
+                                                Using stream As New FileStream(contactInfo.contactImageSource, FileMode.Create)
+                                                    encoder.Save(stream)
+                                                End Using
+                                            End If
                                             didChange = True
                                             Me.Close()
                                         Else
@@ -110,7 +118,7 @@ Public Class RegistrationWindow
     End Function
 
     Private Sub Grid_Loaded(sender As Object, e As RoutedEventArgs)
-        If contactInfo Is Nothing Then
+        If Not isUpdating Then
             contactInfo = New ContactInformation
         Else
             txtStudentID.Text = contactInfo.studentID
@@ -126,7 +134,10 @@ Public Class RegistrationWindow
             txtAddress.Text = contactInfo.address
             txtEmail.Text = contactInfo.email
 
-            imgContactImage.Source = New BitmapImage(New Uri(contactInfo.contactImageSource))
+            If Not contactInfo.contactImageSource = String.Empty Then
+                Debug.Print("meh ""{0}""", contactInfo.contactImageSource)
+                imgContactImage.Source = New BitmapImage(New Uri(contactInfo.contactImageSource))
+            End If
 
             btnRegister.Content = "Update"
             Me.Title = "Update Student"
@@ -146,7 +157,7 @@ Public Class RegistrationWindow
         Debug.Print("Did click meh")
         Dim fileDialog As New OpenFileDialog
         fileDialog.InitialDirectory = myDocumentsFolder
-        fileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*"
+        fileDialog.Filter = "Image files (*.png;*.jpg)|*.png;*.jpg|All files (*.*)|*.*"
         If fileDialog.ShowDialog Then
             imgContactImage.Source = New BitmapImage(New Uri(fileDialog.FileName))
         End If

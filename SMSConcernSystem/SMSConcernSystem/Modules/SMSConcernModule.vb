@@ -48,13 +48,24 @@ Module SMSConcernModule
         Return text.Trim
     End Function
 
-    Public Function SQLInject(ByVal text As String) As String
-        Return "'" & AllTrim(text).Replace("'", "''") & "'"
+    Public Function SQLInject(ByVal value) As String
+        If TypeOf value Is String Then
+            Return String.Format("'{0}'", AllTrim(value).Replace("'", "''"))
+            'ElseIf TypeOf value Is Integer Then
+        Else
+            Return String.Format("{0}", value)
+        End If
+
+
     End Function
 
     Public Function pList(enumerable As IEnumerable(Of String))
         Dim list As New List(Of String)(enumerable)
 
         Return String.Join(",", list.ToArray)
+    End Function
+
+    Public Function yesNoMsgBox(message As String) As Integer
+        Return MsgBox(message, vbYesNo + vbQuestion)
     End Function
 End Module
