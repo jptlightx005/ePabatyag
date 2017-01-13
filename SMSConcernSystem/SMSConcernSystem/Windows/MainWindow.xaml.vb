@@ -26,7 +26,8 @@ Class MainWindow
                                             "mobile_number As `Mobile No`, " & _
                                             "course As `Course`," & _
                                             "year_section As `Year & Section` " & _
-                                            "FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID"
+                                            "FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID " & _
+                                            "ORDER BY tbl_inbox.ID DESC"
 
         SelectData(selectStudentsQuery,
                    Sub(dataAdapter)
@@ -35,7 +36,7 @@ Class MainWindow
                        gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
                    End Sub)
 
-        Dim sql As String = String.Format("SELECT tbl_inbox.*, tbl_contacts.ID as studentID, tbl_contacts.student_id, tbl_contacts.mobile_number, tbl_contacts.first_name, tbl_contacts.last_name, tbl_contacts.course, tbl_contacts.year_section FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID")
+        Dim sql As String = String.Format("SELECT tbl_inbox.*, tbl_contacts.ID as studentID, tbl_contacts.student_id, tbl_contacts.mobile_number, tbl_contacts.first_name, tbl_contacts.last_name, tbl_contacts.course, tbl_contacts.year_section FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID ORDER BY tbl_inbox.ID DESC")
 
         SelectQuery(sql, Sub(result)
                              messageList = result
@@ -60,11 +61,14 @@ Class MainWindow
     End Sub
 
     Private Sub mnu_logout_Click(sender As Object, e As RoutedEventArgs) Handles mnu_logout.Click
-        Dim loginWindow As New LogInWindow
-        My.Settings.isLoggedIn = False
-        My.Settings.Save()
-        loginWindow.Show()
-        Me.Close()
+        Select Case yesNoMsgBox("Are you sure you want to log-out?")
+            Case vbYes
+                Dim loginWindow As New LogInWindow
+                My.Settings.isLoggedIn = False
+                My.Settings.Save()
+                loginWindow.Show()
+                Me.Close()
+        End Select
     End Sub
 
     Private Sub mnu_register_Click(sender As Object, e As RoutedEventArgs) Handles mnu_register.Click
@@ -126,7 +130,7 @@ Class MainWindow
         parameters.Add("message_content", SQLInject(message.UserDataText))
         parameters.Add("sender_number", SQLInject(contact("mobile_number")))
         parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString))
-
+        parameters.Add("is_read", 0)
         Dim sqlBuilder As New System.Text.StringBuilder
         sqlBuilder.AppendLine(String.Format("INSERT INTO tbl_inbox({0}) VALUES({1});",
             pList(parameters.Keys),
@@ -209,5 +213,20 @@ Class MainWindow
     Private Sub lblConnected_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles lblConnected.MouseUp
         'use this to test codes tee hee
         'MessageAlertTone()
+    End Sub
+
+    Private Sub Window_LostFocus(sender As Object, e As RoutedEventArgs)
+
+    End Sub
+
+    Private Sub Window_GotFocus(sender As Object, e As RoutedEventArgs)
+        timerChecker.Start()
+    End Sub
+
+    Private Sub Window_Closing(sender As Object, e As CancelEventArgs)
+        Select Case yesNoMsgBox("Are you sure you want to close the program?")
+            Case vbYes
+                End
+        End Select
     End Sub
 End Class

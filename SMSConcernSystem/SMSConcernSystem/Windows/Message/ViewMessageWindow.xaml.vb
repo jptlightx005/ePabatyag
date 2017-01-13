@@ -72,4 +72,8 @@
                                End If
                            End Sub)
     End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As RoutedEventArgs) Handles btnCancel.Click
+        Me.Close()
+    End Sub
 End Class

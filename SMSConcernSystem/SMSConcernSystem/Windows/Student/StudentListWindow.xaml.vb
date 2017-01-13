@@ -63,6 +63,7 @@ Public Class StudentListWindow
                                  studentInfo.email = student("email")
                                  studentList.Add(studentInfo)
                                  Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", studentInfo.ID))
+                                 Debug.Print("meh {0}, {1}", studentInfo.firstName, studentInfo.contactImageSource)
                                  If (System.IO.File.Exists(imageSource)) Then
                                      studentInfo.contactImageSource = imageSource
                                  End If
