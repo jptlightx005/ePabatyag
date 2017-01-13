@@ -1,5 +1,10 @@
 ﻿Imports System.Data.SQLite
 Public Class LogInWindow
+    Private Sub enterIsPressed(sender As Object, e As KeyEventArgs) Handles txtUsrn.KeyUp, txtPssw.KeyUp
+        If e.Key = Key.Enter Then
+            btnLogin_Click(sender, e)
+        End If
+    End Sub
     Private Sub btnLogin_Click(sender As Object, e As RoutedEventArgs) Handles btnLogin.Click
         Login(txtUsrn.Text, txtPssw.Password,
               Sub(result)
@@ -20,4 +25,5 @@ Public Class LogInWindow
                   End If
               End Sub)
     End Sub
+
 End Class

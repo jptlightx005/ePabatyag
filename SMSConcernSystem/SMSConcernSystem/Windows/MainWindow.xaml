@@ -16,7 +16,7 @@
                 <MenuItem Header="_Application">
                     <MenuItem x:Name="mnuSettings" Header="_Settings" IsEnabled="False"/>
                     <MenuItem x:Name="mnu_logout" Header="_Logout"/>
-                    <MenuItem Header="_Close"/>
+                    <MenuItem x:Name="mnu_close" Header="_Close" />
                 </MenuItem>
                 <MenuItem Header="_Students">
                     <MenuItem x:Name="mnu_register" Header="_Register"/>

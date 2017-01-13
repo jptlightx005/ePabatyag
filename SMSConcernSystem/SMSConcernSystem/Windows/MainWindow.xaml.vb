@@ -7,6 +7,7 @@ Class MainWindow
     Dim messageList As List(Of Dictionary(Of String, String))
     Dim WithEvents deviceChecker As BackgroundWorker
     Dim WithEvents timerChecker As DispatcherTimer
+    Dim closingObject As Object
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         UpdateTable()
         timerChecker = New DispatcherTimer
@@ -67,6 +68,7 @@ Class MainWindow
                 My.Settings.isLoggedIn = False
                 My.Settings.Save()
                 loginWindow.Show()
+                closingObject = mnu_logout
                 Me.Close()
         End Select
     End Sub
@@ -224,9 +226,27 @@ Class MainWindow
     End Sub
 
     Private Sub Window_Closing(sender As Object, e As CancelEventArgs)
-        Select Case yesNoMsgBox("Are you sure you want to close the program?")
-            Case vbYes
-                End
-        End Select
+        If Not closingObject Is mnu_logout Then
+            Select Case yesNoMsgBox("Are you sure you want to close the program?")
+                Case vbYes
+                    End
+                Case vbNo
+                    e.Cancel = True
+            End Select
+        Else
+            smsDeviceConnected = False
+            If (smsComm.IsOpen) Then
+                smsComm.Close()
+            End If
+            timerChecker.Stop()
+            If deviceChecker.IsBusy Then
+                deviceChecker.CancelAsync()
+            End If
+        End If
+    End Sub
+
+    Private Sub mnu_close_Click(sender As Object, e As RoutedEventArgs) Handles mnu_close.Click
+        closingObject = mnu_close
+        Me.Close()
     End Sub
 End Class
