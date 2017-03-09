@@ -107,7 +107,7 @@ Module DBFunctions
                                     "`contact_id`	INTEGER NOT NULL," & _
                                     "`message_content`	TEXT NOT NULL," & _
                                     "`sender_number`	TEXT NOT NULL," & _
-                                    "`date_received`	TEXT NOT NULL" & _
+                                    "`date_received`	TEXT NOT NULL," & _
                                     "`is_read`	INTEGER NOT NULL" & _
                                 ");"
         ExecuteQuery(tableQuery,
