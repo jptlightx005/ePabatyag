@@ -11,7 +11,7 @@ Imports System.Windows
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("SMSConcernSystem")> 
+<Assembly: AssemblyTitle("ePabatyag")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("Microsoft")> 
 <Assembly: AssemblyProduct("SMSConcernSystem")> 
