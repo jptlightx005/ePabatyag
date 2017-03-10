@@ -97,6 +97,8 @@ Module SMSFunctions
                 Debug.Print("Sender: {0}", data.OriginatingAddress)
                 Debug.Print("Sent: {0}", data.SCTimestamp.ToString)
                 Debug.Print("Message: {0}", data.UserDataText)
+                Debug.Print("Keyword: {0}", data.Keyword)
+                Debug.Print("Actual Message: {0}", data.ActualMessage)
                 Debug.Print("-------------------------------------------------------------------")
 
                 unreadMessages.Add(data)

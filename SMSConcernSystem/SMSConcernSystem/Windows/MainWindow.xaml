@@ -18,10 +18,6 @@
                     <MenuItem x:Name="mnu_logout" Header="_Logout"/>
                     <MenuItem x:Name="mnu_close" Header="_Close" />
                 </MenuItem>
-                <MenuItem Header="_Students">
-                    <MenuItem x:Name="mnu_register" Header="_Register"/>
-                    <MenuItem x:Name="mnu_studentlist" Header="_Student List"/>
-                </MenuItem>
                 <MenuItem Header="_About" IsEnabled="False"/>
             </Menu>
             <StackPanel></StackPanel>

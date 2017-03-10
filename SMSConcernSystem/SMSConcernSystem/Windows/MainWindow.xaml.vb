@@ -21,14 +21,10 @@ Class MainWindow
         End If
     End Sub
     Private Sub UpdateTable()
-        Dim selectStudentsQuery As String = "SELECT tbl_contacts.student_id As `Student ID`," & _
-                                            "(first_name || ' ' || last_name) AS `Name`," & _
+        Dim selectStudentsQuery As String = "SELECT keyword As `Keyword`," & _
                                             "message_content AS `Message`," & _
-                                            "mobile_number As `Mobile No`, " & _
-                                            "course As `Course`," & _
-                                            "year_section As `Year & Section` " & _
-                                            "FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID " & _
-                                            "ORDER BY tbl_inbox.ID DESC"
+                                            "mobile_number As `Mobile No` " & _
+                                            "FROM tbl_inbox ORDER BY tbl_inbox.ID DESC"
 
         SelectData(selectStudentsQuery,
                    Sub(dataAdapter)
@@ -37,7 +33,7 @@ Class MainWindow
                        gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
                    End Sub)
 
-        Dim sql As String = String.Format("SELECT tbl_inbox.*, tbl_contacts.ID as studentID, tbl_contacts.student_id, tbl_contacts.mobile_number, tbl_contacts.first_name, tbl_contacts.last_name, tbl_contacts.course, tbl_contacts.year_section FROM tbl_inbox JOIN tbl_contacts ON tbl_inbox.contact_id = tbl_contacts.ID ORDER BY tbl_inbox.ID DESC")
+        Dim sql As String = String.Format("SELECT * FROM tbl_inbox ORDER BY tbl_inbox.ID DESC")
 
         SelectQuery(sql, Sub(result)
                              messageList = result
@@ -73,16 +69,6 @@ Class MainWindow
         End Select
     End Sub
 
-    Private Sub mnu_register_Click(sender As Object, e As RoutedEventArgs) Handles mnu_register.Click
-        Dim regWindow As New RegistrationWindow
-        regWindow.ShowDialog()
-    End Sub
-
-    Private Sub mnu_studentlist_Click(sender As Object, e As RoutedEventArgs) Handles mnu_studentlist.Click
-        Dim studentListWindow As New StudentListWindow
-        studentListWindow.ShowDialog()
-    End Sub
-
     Private Sub mnuSettings_Click(sender As Object, e As RoutedEventArgs) Handles mnuSettings.Click
         'Dim settingsWindow As New SettingsWindow
         'settingsWindow.ShowDialog()
@@ -102,35 +88,30 @@ Class MainWindow
         ExecuteQuery(sqlBuilder.ToString, Sub(result)
                                               If result Then
                                                   Debug.Print("Received a message and stored to raw inbox")
-                                                  CheckSenderIfRegistered(message)
+                                                  CheckKeywordIfValid(message)
                                               Else
                                                   Debug.Print("Received a message but failed to store to raw inbox")
                                               End If
                                           End Sub)
     End Sub
 
-    Private Sub CheckSenderIfRegistered(message As SmsDeliverPdu)
-        Dim sql As String = "SELECT * FROM tbl_contacts"
+    Private Sub CheckKeywordIfValid(message As SmsDeliverPdu)
+        For Each key In keywords
+            Debug.Print("{0} == {1}", message.Keyword, key)
 
-        SelectQuery(sql, Sub(result)
-
-                             For Each student In result
-                                 Debug.Print("{0} == {1} == {2}", message.OriginatingAddress, student("mobile_number"), ConvertToCountryCodedNumber(student("mobile_number")))
-
-                                 If message.OriginatingAddress = ConvertToCountryCodedNumber(student("mobile_number")) Then
-                                     Debug.Print("^ True ^")
-                                     SaveFilteredMessage(message, student)
-                                     Exit Sub
-                                 End If
-                             Next
-                             Debug.Print("Message was not saved because sender is not registered.")
-                         End Sub)
+            If message.Keyword = key Then
+                Debug.Print("^ True ^")
+                SaveFilteredMessage(message)
+                Exit Sub
+            End If
+        Next
+        Debug.Print("Message was not saved because sender is not registered.")
     End Sub
-    Private Sub SaveFilteredMessage(message As SmsDeliverPdu, contact As Dictionary(Of String, String))
+    Private Sub SaveFilteredMessage(message As SmsDeliverPdu)
         Dim parameters As New Dictionary(Of String, String)
-        parameters.Add("contact_id", SQLInject(contact("ID")))
+        parameters.Add("keyword", SQLInject(message.Keyword))
         parameters.Add("message_content", SQLInject(message.UserDataText))
-        parameters.Add("sender_number", SQLInject(contact("mobile_number")))
+        parameters.Add("sender_number", SQLInject(message.OriginatingAddress))
         parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString))
         parameters.Add("is_read", 0)
         Dim sqlBuilder As New System.Text.StringBuilder

@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ContactInformation.vb" />
+    <Compile Include="Model\SmsDeliverPduExtension.vb" />
     <Compile Include="Modules\SMSFunctions.vb" />
     <Compile Include="My Project\Resources1.Designer.vb">
       <AutoGen>True</AutoGen>
