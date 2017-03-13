@@ -103,6 +103,11 @@ Module SMSFunctions
 
                 unreadMessages.Add(data)
             Next
+
+            For i = rawUnreadMessages.Count - 1 To 0 Step -1
+                smsComm.DeleteMessage(i, PhoneStorageType.Sim)
+            Next
+            Debug.Print("{0} messages has been removed from the SIM", rawUnreadMessages.Count)
         Catch ex As Exception
             smsDeviceConnected = False
             Debug.Print("Device has been removed!")
