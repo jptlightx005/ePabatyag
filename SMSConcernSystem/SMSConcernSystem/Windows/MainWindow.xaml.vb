@@ -26,18 +26,14 @@ Class MainWindow
                                             "mobile_number As `Mobile No` " & _
                                             "FROM tbl_inbox ORDER BY tbl_inbox.ID DESC"
 
-        SelectData(selectStudentsQuery,
-                   Sub(dataAdapter)
-                       Dim dataSet As New DataSet()
-                       dataAdapter.Fill(dataSet)
-                       gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
-                   End Sub)
+        Dim dataSet As New DataSet()
+        Dim data = SelectData(selectStudentsQuery)
+        data.Fill(dataSet)
+        gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
 
         Dim sql As String = String.Format("SELECT * FROM tbl_inbox ORDER BY tbl_inbox.ID DESC")
 
-        SelectQuery(sql, Sub(result)
-                             messageList = result
-                         End Sub)
+        messageList = SelectQuery(sql)
 
         gridInbox.IsReadOnly = True
     End Sub
@@ -85,14 +81,12 @@ Class MainWindow
             pList(parameters.Keys),
             pList(parameters.Values)))
 
-        ExecuteQuery(sqlBuilder.ToString, Sub(result)
-                                              If result Then
-                                                  Debug.Print("Received a message and stored to raw inbox")
-                                                  CheckKeywordIfValid(message)
-                                              Else
-                                                  Debug.Print("Received a message but failed to store to raw inbox")
-                                              End If
-                                          End Sub)
+        If ExecuteQuery(sqlBuilder.ToString) Then
+            Debug.Print("Received a message and stored to raw inbox")
+            CheckKeywordIfValid(message)
+        Else
+            Debug.Print("Received a message but failed to store to raw inbox")
+        End If
     End Sub
 
     Private Sub CheckKeywordIfValid(message As SmsDeliverPdu)
@@ -119,22 +113,21 @@ Class MainWindow
             pList(parameters.Keys),
             pList(parameters.Values)))
 
-        ExecuteQuery(sqlBuilder.ToString, Sub(result)
-                                              If result Then
-                                                  Debug.Print("Filtered a message and stored to inbox")
-                                                  Dispatcher.Invoke(Sub()
-                                                                        MessageAlertTone()
-                                                                        UpdateTable()
-                                                                    End Sub)
-                                              Else
-                                                  Debug.Print("Filtered a message but failed to store to inbox")
-                                              End If
-                                          End Sub)
+        If ExecuteQuery(sqlBuilder.ToString) Then
+            Debug.Print("Filtered a message and stored to inbox")
+            Dispatcher.Invoke(Sub()
+                                  MessageAlertTone()
+                                  UpdateTable()
+                              End Sub)
+        Else
+            Debug.Print("Filtered a message but failed to store to inbox")
+        End If
     End Sub
 
     Private Sub gridInbox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles gridInbox.SelectionChanged
         Debug.Print("Selected index {0}", gridInbox.SelectedIndex)
         btnRead.IsEnabled = gridInbox.SelectedIndex >= 0
+        btnRemove.IsEnabled = gridInbox.SelectedIndex >= 0
     End Sub
 
     Private Sub deviceChecker_DoWork() Handles deviceChecker.DoWork
@@ -229,5 +222,19 @@ Class MainWindow
     Private Sub mnu_close_Click(sender As Object, e As RoutedEventArgs) Handles mnu_close.Click
         closingObject = mnu_close
         Me.Close()
+    End Sub
+
+    Private Sub btnRemove_Click(sender As Object, e As RoutedEventArgs) Handles btnRemove.Click
+        If gridInbox.SelectedIndex >= 0 Then
+            Dim selectedMessage = messageList(gridInbox.SelectedIndex)
+            Dim sql = String.Format("UPDATE tbl_inbox SET is_removed = 1 WHERE ID = {0});", selectedMessage("ID"))
+
+            If ExecuteQuery(sql) Then
+                Debug.Print("Removed message")
+                UpdateTable()
+            Else
+                Debug.Print("Filtered a message but failed to store to inbox")
+            End If
+        End If
     End Sub
 End Class

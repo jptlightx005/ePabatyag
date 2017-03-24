@@ -3,62 +3,53 @@ Imports System.Data.SQLite
 Imports System.Data.DataSet
 Module DBFunctions
 
-    Public Sub DBQuery(completionBlock As Action(Of SQLiteConnection))
+    Public Function DBQuery() As SQLiteConnection
         Dim cnstr As String = String.Format("DataSource={0};Version=3;New=False;Compress=True;", smsSystemDB)
-        Using cn As New SQLiteConnection(cnstr)
-            cn.Open()
-            completionBlock(cn)
+        Dim cn = New SQLiteConnection(cnstr)
+        cn.Open()
+        Return cn
+    End Function
+
+    Public Function ExecuteQuery(sql As String) As Boolean
+        Using cmd As New SQLiteCommand(sql, DBQuery())
+            Try
+                Debug.Print("Execute SQL: " & sql)
+                Debug.Print("Result: {0}", cmd.ExecuteNonQuery())
+                Return True
+
+            Catch ex As Exception
+                Debug.Print("Error: {0}", ex.Message)
+                Return False
+            End Try
         End Using
-    End Sub
+    End Function
 
-    Public Sub ExecuteQuery(sql As String, completionBlock As Action(Of Boolean))
-        DBQuery(Sub(cn)
-                    Using cmd As New SQLiteCommand(sql, cn)
-                        Try
-                            Debug.Print("Execute SQL: " & sql)
-                            Debug.Print("Result: {0}", cmd.ExecuteNonQuery())
-                            If Not completionBlock Is Nothing Then
-                                completionBlock(True)
-                            End If
+    Public Function SelectData(sql As String) As SQLiteDataAdapter
+        Debug.Print("Select SQL: " & sql)
+        Dim da = New SQLiteDataAdapter(sql, DBQuery.ConnectionString)
+        'Using da As New SQLiteDataAdapter(sql, DBQuery.ConnectionString)
+        Debug.Print("Should be here: {0}", DBQuery.ConnectionString)
+        Return da
+        'End Using
+    End Function
 
-                        Catch ex As Exception
-                            Debug.Print("Error: {0}", ex.Message)
-                            If Not completionBlock Is Nothing Then
-                                completionBlock(False)
-                            End If
-                        End Try
-                    End Using
-                End Sub)
-    End Sub
+    Public Function SelectQuery(sql As String) As List(Of Dictionary(Of String, String))
+        Dim records As New List(Of Dictionary(Of String, String))
+        Debug.Print("Select SQL: " & sql)
+        Using cmd As New SQLiteCommand(sql, DBQuery)
+            Using rs As SQLiteDataReader = cmd.ExecuteReader()
+                While rs.Read
+                    Dim record As New Dictionary(Of String, String)
+                    For i As Integer = 0 To rs.FieldCount - 1
+                        record.Add(rs.GetName(i), rs.GetValue(i))
+                    Next
+                    records.Add(record)
+                End While
+            End Using
+        End Using
 
-    Public Sub SelectData(sql As String, completionBlock As Action(Of SQLiteDataAdapter))
-        DBQuery(Sub(cn)
-                    Debug.Print("Select SQL: " & sql)
-                    Using da As New SQLiteDataAdapter(sql, cn)
-                        completionBlock(da)
-                    End Using
-                End Sub)
-    End Sub
-
-    Public Sub SelectQuery(sql As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
-        DBQuery(Sub(cn)
-                    Dim records As New List(Of Dictionary(Of String, String))
-                    Debug.Print("Select SQL: " & sql)
-                    Using cmd As New SQLiteCommand(sql, cn)
-                        Using rs As SQLiteDataReader = cmd.ExecuteReader()
-                            While rs.Read
-                                Dim record As New Dictionary(Of String, String)
-                                For i As Integer = 0 To rs.FieldCount - 1
-                                    record.Add(rs.GetName(i), rs.GetValue(i))
-                                Next
-                                records.Add(record)
-                            End While
-                        End Using
-                    End Using
-
-                    completionBlock(records)
-                End Sub)
-    End Sub
+        Return records
+    End Function
     Public Sub CreateAdminAccount()
         Dim tableQuery As String = "CREATE TABLE `tbl_admin` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
@@ -68,16 +59,12 @@ Module DBFunctions
                                     ");"
         Dim adminQuery As String = "INSERT INTO `tbl_admin` VALUES (NULL, 'admin', 'password', 'admin@password.com')"
 
-        ExecuteQuery(tableQuery,
-                     Sub(createdTable)
-                         Debug.Print("Created : {0}", createdTable.ToString)
-                         If (createdTable) Then
-                             ExecuteQuery(adminQuery, Nothing)
-                         Else
-                             MsgBox("Failed to create Table", vbExclamation)
-                         End If
-                     End Sub)
-
+        If (ExecuteQuery(tableQuery)) Then
+            Debug.Print("Admin table created!")
+            Debug.Print("Added Admin: {0}", ExecuteQuery(adminQuery).ToString)
+        Else
+            MsgBox("Failed to create Table", vbExclamation)
+        End If
     End Sub
 
     Public Sub CreateInboxTable()
@@ -87,12 +74,11 @@ Module DBFunctions
                                     "`message_content`	TEXT NOT NULL," & _
                                     "`mobile_number`	TEXT NOT NULL," & _
                                     "`date_received`	TEXT NOT NULL," & _
+                                    "`is_removed`	INTEGER NOT NULL," & _
                                     "`is_read`	INTEGER NOT NULL" & _
                                 ");"
-        ExecuteQuery(tableQuery,
-                     Sub(createdTable)
-                         Debug.Print("Created : {0}", createdTable.ToString)
-                     End Sub)
+
+        Debug.Print("Created Inbox: {0}", ExecuteQuery(tableQuery).ToString)
 
     End Sub
 
@@ -103,20 +89,13 @@ Module DBFunctions
                                     "`message`	TEXT NOT NULL," & _
                                     "`date_sent`	TEXT NOT NULL" & _
                                 ");"
-        ExecuteQuery(tableQuery,
-                     Sub(createdTable)
-                         Debug.Print("Created : {0}", createdTable.ToString)
-                     End Sub)
 
+        Debug.Print("Created Raw Inbox: {0}", ExecuteQuery(tableQuery).ToString)
     End Sub
 
-    Public Sub Login(usrn As String, pssw As String, completionBlock As Action(Of List(Of Dictionary(Of String, String))))
+    Public Function Login(usrn As String, pssw As String) As List(Of Dictionary(Of String, String))
         Dim loginQuery As String = String.Format("SELECT * FROM `tbl_admin` WHERE usrn = '{0}' And pssw = '{1}'", usrn, pssw)
-
-        SelectQuery(loginQuery,
-                    Sub(dictionaries)
-                        completionBlock(dictionaries)
-                    End Sub)
-    End Sub
+        Return SelectQuery(loginQuery)
+    End Function
 
 End Module

@@ -48,29 +48,29 @@
 
     Private Sub LookUpStudent(completionBlock As Action(Of ContactInformation))
         Dim query As String = String.Format("SELECT * FROM tbl_contacts WHERE ID = {0}", selectedMessage("studentID"))
-        SelectQuery(query, Sub(result)
-                               If result.Count > 0 Then
-                                   Dim student = result.First
-                                   Dim studentInfo As New ContactInformation
-                                   studentInfo.ID = student("ID")
-                                   studentInfo.studentID = student("student_id")
-                                   studentInfo.contactNo = student("mobile_number")
-                                   studentInfo.firstName = student("first_name")
-                                   studentInfo.lastName = student("last_name")
-                                   studentInfo.course = student("course")
-                                   studentInfo.yearSection = student("year_section")
-                                   studentInfo.gender = student("gender")
-                                   If Not student("date_of_birth") = "" Then
-                                       studentInfo.dateOfBirth = Date.Parse(student("date_of_birth"))
-                                   End If
-                                   studentInfo.address = student("address")
-                                   studentInfo.email = student("email")
 
-                                   completionBlock(studentInfo)
-                               Else
-                                   MsgBox("ERROR! STUDENT NOT FOUND!", vbOK + vbExclamation)
-                               End If
-                           End Sub)
+        Dim result = SelectQuery(query)
+        If result.Count > 0 Then
+            Dim student = result.First
+            Dim studentInfo As New ContactInformation
+            studentInfo.ID = student("ID")
+            studentInfo.studentID = student("student_id")
+            studentInfo.contactNo = student("mobile_number")
+            studentInfo.firstName = student("first_name")
+            studentInfo.lastName = student("last_name")
+            studentInfo.course = student("course")
+            studentInfo.yearSection = student("year_section")
+            studentInfo.gender = student("gender")
+            If Not student("date_of_birth") = "" Then
+                studentInfo.dateOfBirth = Date.Parse(student("date_of_birth"))
+            End If
+            studentInfo.address = student("address")
+            studentInfo.email = student("email")
+
+            completionBlock(studentInfo)
+        Else
+            MsgBox("ERROR! STUDENT NOT FOUND!", vbOK + vbExclamation)
+        End If
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As RoutedEventArgs) Handles btnCancel.Click

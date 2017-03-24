@@ -45,25 +45,24 @@ Public Class RegistrationWindow
             pList(parameters.Values)))
         sqlBuilder.Append("SELECT last_insert_rowid();")
 
-        SelectQuery(sqlBuilder.ToString, Sub(result)
-                                             If result.Count > 0 Then
-                                                 Dim a As Dictionary(Of String, String) = result.First
-                                                 Debug.Print(a("last_insert_rowid()"))
-                                                 MsgBox("Student succesfully registered!", vbInformation)
-                                                 If Not imgContactImage.Source Is defaultImageSource Then
-                                                     contactInfo.contactImageSource = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", a("last_insert_rowid()")))
-                                                     Dim encoder As New PngBitmapEncoder()
-                                                     encoder.Frames.Add(BitmapFrame.Create(CType(imgContactImage.Source, BitmapSource)))
-                                                     Using stream As New FileStream(contactInfo.contactImageSource, FileMode.Create)
-                                                         encoder.Save(stream)
-                                                     End Using
-                                                 End If
-                                                 didChange = True
-                                                 Me.Close()
-                                             Else
-                                                 MsgBox("Failed to register!", vbExclamation)
-                                             End If
-                                         End Sub)
+        Dim result = SelectQuery(sqlBuilder.ToString)
+        If result.Count > 0 Then
+            Dim a As Dictionary(Of String, String) = result.First
+            Debug.Print(a("last_insert_rowid()"))
+            MsgBox("Student succesfully registered!", vbInformation)
+            If Not imgContactImage.Source Is defaultImageSource Then
+                contactInfo.contactImageSource = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", a("last_insert_rowid()")))
+                Dim encoder As New PngBitmapEncoder()
+                encoder.Frames.Add(BitmapFrame.Create(CType(imgContactImage.Source, BitmapSource)))
+                Using stream As New FileStream(contactInfo.contactImageSource, FileMode.Create)
+                    encoder.Save(stream)
+                End Using
+            End If
+            didChange = True
+            Me.Close()
+        Else
+            MsgBox("Failed to register!", vbExclamation)
+        End If
     End Sub
 
     Sub UpdateContact()
@@ -88,23 +87,21 @@ Public Class RegistrationWindow
             setQuery,
             contactInfo.ID)
 
-        ExecuteQuery(registerQuery, Sub(success)
-                                        If (success) Then
-                                            MsgBox("Contact succesfully updated!", vbInformation)
-                                            If Not imgContactImage.Source Is defaultImageSource Then
-                                                contactInfo.contactImageSource = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", contactInfo.ID))
-                                                Dim encoder As New PngBitmapEncoder()
-                                                encoder.Frames.Add(BitmapFrame.Create(CType(imgContactImage.Source, BitmapSource)))
-                                                Using stream As New FileStream(contactInfo.contactImageSource, FileMode.Create)
-                                                    encoder.Save(stream)
-                                                End Using
-                                            End If
-                                            didChange = True
-                                            Me.Close()
-                                        Else
-                                            MsgBox("Failed to update!", vbExclamation)
-                                        End If
-                                    End Sub)
+        If (ExecuteQuery(registerQuery)) Then
+            MsgBox("Contact succesfully updated!", vbInformation)
+            If Not imgContactImage.Source Is defaultImageSource Then
+                contactInfo.contactImageSource = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", contactInfo.ID))
+                Dim encoder As New PngBitmapEncoder()
+                encoder.Frames.Add(BitmapFrame.Create(CType(imgContactImage.Source, BitmapSource)))
+                Using stream As New FileStream(contactInfo.contactImageSource, FileMode.Create)
+                    encoder.Save(stream)
+                End Using
+            End If
+            didChange = True
+            Me.Close()
+        Else
+            MsgBox("Failed to update!", vbExclamation)
+        End If
     End Sub
     Function ValidateData() As Boolean
         Dim isValid As Boolean = True

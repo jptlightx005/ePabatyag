@@ -35,41 +35,39 @@ Public Class StudentListWindow
                                              "year_section As `Year & Section`," & _
                                              "mobile_number As `Mobile No` " & _
                                             "FROM `tbl_contacts`"
-        SelectData(selectStudentsQuery,
-                   Sub(dataAdapter)
-                       Dim dataSet As New DataSet()
-                       dataAdapter.Fill(dataSet)
-                       gridStudents.ItemsSource = dataSet.Tables(0).DefaultView
-                   End Sub)
+
+        Dim dataSet As New DataSet()
+        SelectData(selectStudentsQuery).Fill(dataSet)
+        gridStudents.ItemsSource = dataSet.Tables(0).DefaultView
 
         Dim sql As String = "SELECT * FROM tbl_contacts"
         
-        SelectQuery(sql, Sub(result)
-                             studentList = New List(Of ContactInformation)
-                             For Each student In result
-                                 Dim studentInfo As New ContactInformation
-                                 studentInfo.ID = student("ID")
-                                 studentInfo.studentID = student("student_id")
-                                 studentInfo.contactNo = student("mobile_number")
-                                 studentInfo.firstName = student("first_name")
-                                 studentInfo.lastName = student("last_name")
-                                 studentInfo.course = student("course")
-                                 studentInfo.yearSection = student("year_section")
-                                 studentInfo.gender = student("gender")
-                                 If Not student("date_of_birth") = "" Then
-                                     studentInfo.dateOfBirth = Date.Parse(student("date_of_birth"))
-                                 End If
-                                 studentInfo.address = student("address")
-                                 studentInfo.email = student("email")
-                                 studentList.Add(studentInfo)
-                                 Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", studentInfo.ID))
-                                 Debug.Print("meh {0}, {1}", studentInfo.firstName, studentInfo.contactImageSource)
-                                 If (System.IO.File.Exists(imageSource)) Then
-                                     studentInfo.contactImageSource = imageSource
-                                 End If
-                             Next
-                             Debug.Print("Student list count is {0}", studentList.Count)
-                         End Sub)
+        Dim result = SelectQuery(sql)
+
+        studentList = New List(Of ContactInformation)
+        For Each student In result
+            Dim studentInfo As New ContactInformation
+            studentInfo.ID = student("ID")
+            studentInfo.studentID = student("student_id")
+            studentInfo.contactNo = student("mobile_number")
+            studentInfo.firstName = student("first_name")
+            studentInfo.lastName = student("last_name")
+            studentInfo.course = student("course")
+            studentInfo.yearSection = student("year_section")
+            studentInfo.gender = student("gender")
+            If Not student("date_of_birth") = "" Then
+                studentInfo.dateOfBirth = Date.Parse(student("date_of_birth"))
+            End If
+            studentInfo.address = student("address")
+            studentInfo.email = student("email")
+            studentList.Add(studentInfo)
+            Dim imageSource As String = System.IO.Path.Combine(smsSystemImages, String.Format("contact-image-{0}.jpg", studentInfo.ID))
+            Debug.Print("meh {0}, {1}", studentInfo.firstName, studentInfo.contactImageSource)
+            If (System.IO.File.Exists(imageSource)) Then
+                studentInfo.contactImageSource = imageSource
+            End If
+        Next
+        Debug.Print("Student list count is {0}", studentList.Count)
 
         gridStudents.IsReadOnly = True
     End Sub
