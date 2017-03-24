@@ -24,14 +24,14 @@ Class MainWindow
         Dim selectStudentsQuery As String = "SELECT keyword As `Keyword`," & _
                                             "message_content AS `Message`," & _
                                             "mobile_number As `Mobile No` " & _
-                                            "FROM tbl_inbox ORDER BY tbl_inbox.ID DESC"
+                                            "FROM tbl_inbox ORDER BY tbl_inbox.ID DESC WHERE is_removed = 0"
 
         Dim dataSet As New DataSet()
         Dim data = SelectData(selectStudentsQuery)
         data.Fill(dataSet)
         gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
 
-        Dim sql As String = String.Format("SELECT * FROM tbl_inbox ORDER BY tbl_inbox.ID DESC")
+        Dim sql As String = String.Format("SELECT * FROM tbl_inbox ORDER BY tbl_inbox.ID DESC WHERE is_removed = 0")
 
         messageList = SelectQuery(sql)
 
@@ -99,7 +99,7 @@ Class MainWindow
                 Exit Sub
             End If
         Next
-        Debug.Print("Message was not saved because sender is not registered.")
+        Debug.Print("Message was not saved because keyword is not valid.")
     End Sub
     Private Sub SaveFilteredMessage(message As SmsDeliverPdu)
         Dim parameters As New Dictionary(Of String, String)
