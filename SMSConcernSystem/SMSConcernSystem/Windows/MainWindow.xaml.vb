@@ -17,6 +17,33 @@ Class MainWindow
         timerChecker.Interval = New TimeSpan(0, 0, 0, 1, 0)
         timerChecker.Start()
     End Sub
+
+    Private Sub menuItem_Click(sender As Object, e As RoutedEventArgs) Handles mnu_logout.Click, mnuSettings.Click, mnu_close.Click, mnu_report.Click
+        Dim m As MenuItem = TryCast(sender, MenuItem)
+        Debug.Print("Selected menu is: {0}", m.Header)
+        If Equals(sender, mnu_logout) Then
+            Select Case yesNoMsgBox("Are you sure you want to log-out?")
+                Case vbYes
+                    Dim loginWindow As New LogInWindow
+                    My.Settings.isLoggedIn = False
+                    My.Settings.Save()
+                    loginWindow.Show()
+                    closingObject = mnu_logout
+                    Me.Close()
+            End Select
+        ElseIf Equals(sender, mnuSettings) Then
+            'Dim settingsWindow As New SettingsWindow
+            'settingsWindow.ShowDialog()
+        ElseIf Equals(sender, mnu_close) Then
+            closingObject = mnu_close
+            Me.Close()
+        ElseIf Equals(sender, mnu_report) Then
+            Dim reportsWindow As New MonthlyReportWindow
+
+            reportsWindow.ShowDialog()
+        End If
+    End Sub
+
     Private Sub timerChecker_Tick() Handles timerChecker.Tick
         If Not deviceChecker.IsBusy Then
             deviceChecker.RunWorkerAsync()
@@ -26,14 +53,14 @@ Class MainWindow
         Dim selectStudentsQuery As String = "SELECT keyword As `Keyword`," & _
                                             "message_content AS `Message`," & _
                                             "mobile_number As `Mobile No` " & _
-                                            "FROM tbl_inbox ORDER BY tbl_inbox.ID DESC WHERE is_removed = 0"
+                                            "FROM tbl_inbox WHERE is_removed = 0 ORDER BY tbl_inbox.ID DESC "
 
         Dim dataSet As New DataSet()
         Dim data = SelectData(selectStudentsQuery)
         data.Fill(dataSet)
         gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
 
-        Dim sql As String = String.Format("SELECT * FROM tbl_inbox ORDER BY tbl_inbox.ID DESC WHERE is_removed = 0")
+        Dim sql As String = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0 ORDER BY tbl_inbox.ID DESC ")
 
         messageList = SelectQuery(sql)
 
@@ -53,23 +80,6 @@ Class MainWindow
             messageWindow.selectedMessage = messageList(gridInbox.SelectedIndex)
             messageWindow.ShowDialog()
         End If
-    End Sub
-
-    Private Sub mnu_logout_Click(sender As Object, e As RoutedEventArgs) Handles mnu_logout.Click
-        Select Case yesNoMsgBox("Are you sure you want to log-out?")
-            Case vbYes
-                Dim loginWindow As New LogInWindow
-                My.Settings.isLoggedIn = False
-                My.Settings.Save()
-                loginWindow.Show()
-                closingObject = mnu_logout
-                Me.Close()
-        End Select
-    End Sub
-
-    Private Sub mnuSettings_Click(sender As Object, e As RoutedEventArgs) Handles mnuSettings.Click
-        'Dim settingsWindow As New SettingsWindow
-        'settingsWindow.ShowDialog()
     End Sub
 
     Private Sub SaveRawMessage(message As SmsDeliverPdu)
@@ -180,7 +190,7 @@ Class MainWindow
                                       End Sub)
                 End If
             End If
-            
+
         Else
             Debug.Print("Retrieving Messages...")
             Dim unreadMessages = GetAllUnreadMessages()
@@ -227,11 +237,6 @@ Class MainWindow
                 deviceChecker.CancelAsync()
             End If
         End If
-    End Sub
-
-    Private Sub mnu_close_Click(sender As Object, e As RoutedEventArgs) Handles mnu_close.Click
-        closingObject = mnu_close
-        Me.Close()
     End Sub
 
     Private Sub btnRemove_Click(sender As Object, e As RoutedEventArgs) Handles btnRemove.Click

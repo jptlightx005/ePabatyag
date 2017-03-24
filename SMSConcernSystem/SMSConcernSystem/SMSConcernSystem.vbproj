@@ -104,6 +104,9 @@
     <Compile Include="Windows\Message\ComposeMessageWindow.xaml.vb">
       <DependentUpon>ComposeMessageWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Reports\MonthlyReportWindow.xaml.vb">
+      <DependentUpon>MonthlyReportWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Settings\SettingsWindow.xaml.vb">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Message\ComposeMessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Reports\MonthlyReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -208,6 +215,30 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <LastGenOutput>Resources1.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <None Include="MonthlyReports\bootstrap\css\bootstrap-theme.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonthlyReports\bootstrap\css\bootstrap-theme.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonthlyReports\bootstrap\css\bootstrap.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonthlyReports\bootstrap\css\bootstrap.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonthlyReports\bootstrap\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Resource Include="MonthlyReports\bootstrap\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <None Include="MonthlyReports\bootstrap\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonthlyReports\bootstrap\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -247,6 +278,35 @@
     <None Include="Resources\sos_ringtone.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MonthlyReports\bootstrap\css\bootstrap-theme.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\css\bootstrap-theme.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\css\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\css\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\js\bootstrap.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\bootstrap\js\npm.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MonthlyReports\MonthlyReportPage.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

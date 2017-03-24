@@ -15,7 +15,7 @@
 
     Private Sub btnSend_Click(sender As Object, e As RoutedEventArgs) Handles btnSend.Click
         If Not txtMessage.Text = String.Empty Then
-            If SendMessage(txtMessage.Text, recipients) Then
+            If SendMessageToContacts(txtMessage.Text, recipients) Then
                 MsgBox("Successfully sent!", vbInformation)
             Else
                 MsgBox("Failed to send messages!", vbExclamation)
