@@ -7,7 +7,9 @@ Class MainWindow
     Dim messageList As List(Of Dictionary(Of String, String))
     Dim WithEvents deviceChecker As BackgroundWorker
     Dim WithEvents timerChecker As DispatcherTimer
+
     Dim closingObject As Object
+
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         UpdateTable()
         timerChecker = New DispatcherTimer
@@ -119,8 +121,16 @@ Class MainWindow
                                   MessageAlertTone()
                                   UpdateTable()
                               End Sub)
+            ReplyIfMessageIsValid(message.OriginatingAddress)
         Else
             Debug.Print("Filtered a message but failed to store to inbox")
+        End If
+    End Sub
+
+    Private Sub ReplyIfMessageIsValid(sender As String)
+        If smsDeviceConnected Then
+            Dim message = "Congratulations! Your message has been received. Thank you for your feedback! We will get in touch with you soon!"
+            SendMessage(message, sender)
         End If
     End Sub
 

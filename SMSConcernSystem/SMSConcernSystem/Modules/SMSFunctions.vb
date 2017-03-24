@@ -3,6 +3,7 @@ Imports GsmComm.PduConverter
 Imports System.IO
 Imports System.Threading
 Imports System.IO.Ports
+Imports System.ComponentModel
 Module SMSFunctions
     Public smsDeviceConnected As Boolean
     Public smsComm As GsmCommMain
@@ -117,7 +118,23 @@ Module SMSFunctions
         Return unreadMessages
     End Function
 
-    Public Function SendMessage(message As String, contacts As List(Of ContactInformation)) As Boolean
+    Public Function SendMessage(message As String, number As String)
+        Dim newMessages As New List(Of SmsSubmitPdu)
+
+        Dim newMessage As New SmsSubmitPdu("message", number)
+        newMessages.Add(newMessage)
+
+        Try
+            Debug.Print("Sending...")
+            smsComm.SendMessages(newMessages.ToArray)
+            Return True
+        Catch ex As Exception
+            Debug.Print("Failed to send!")
+            Return False
+        End Try
+    End Function
+
+    Public Function SendMessageToContacts(message As String, contacts As List(Of ContactInformation)) As Boolean
         Dim newMessages As New List(Of SmsSubmitPdu)
         For Each contact In contacts
             Dim newMessage As New SmsSubmitPdu("message", contact.contactNo)
