@@ -18,6 +18,9 @@
                     <MenuItem x:Name="mnu_logout" Header="_Logout"/>
                     <MenuItem x:Name="mnu_close" Header="_Close" />
                 </MenuItem>
+                <MenuItem Header="_Reports">
+                    <MenuItem x:Name="mnu_report" Header="_Monthly Feedbacks" IsEnabled="False"/>
+                </MenuItem>
                 <MenuItem Header="_About" IsEnabled="False"/>
             </Menu>
             <StackPanel></StackPanel>
