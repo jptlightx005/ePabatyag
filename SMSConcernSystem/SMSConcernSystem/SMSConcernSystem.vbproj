@@ -104,6 +104,9 @@
     <Compile Include="Windows\Message\ComposeMessageWindow.xaml.vb">
       <DependentUpon>ComposeMessageWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Reports\MonthlyReportWebWindow.xaml.vb">
+      <DependentUpon>MonthlyReportWebWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Reports\MonthlyReportWindow.xaml.vb">
       <DependentUpon>MonthlyReportWindow.xaml</DependentUpon>
     </Compile>
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Message\ComposeMessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Reports\MonthlyReportWebWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

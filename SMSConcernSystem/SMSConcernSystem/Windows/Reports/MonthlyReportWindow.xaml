@@ -3,10 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="MonthlyReportWindow" Height="193" Width="300">
     <Grid Background="#FFB2D6F9" Loaded="Grid_Loaded">
-        <Button Content="Print" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
-        <Button Content="Close" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10"/>
+        <Button x:Name="btn_print" Content="Print" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+        <Button x:Name="btn_close" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10"/>
         <Label Content="Select Month:" Width="100" Margin="10,18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
-        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,44,0,0">
+        <ComboBox x:Name="cmb_month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,44,0,0">
             <ComboBoxItem Content="January"/>
             <ComboBoxItem Content="February"/>
             <ComboBoxItem Content="March"/>
