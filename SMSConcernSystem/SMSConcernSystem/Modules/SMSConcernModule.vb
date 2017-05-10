@@ -14,6 +14,7 @@ Module SMSConcernModule
         smsSystemImages = System.IO.Path.Combine(smsSystemFolder, "Contact Images")
         CheckDB()
         LoadSettings()
+        LoadKeywords()
 
         Dim app As New System.Windows.Application
         If My.Settings.isLoggedIn Then
@@ -69,9 +70,11 @@ Module SMSConcernModule
 
     Public Function SQLInject(ByVal value) As String
         If TypeOf value Is String Then
+            Debug.Print("Value '{0}' is a string", value)
             Return String.Format("'{0}'", AllTrim(value).Replace("'", "''"))
             'ElseIf TypeOf value Is Integer Then
         Else
+            Debug.Print("Value {0} is an integer, probably", value)
             Return String.Format("{0}", value)
         End If
 

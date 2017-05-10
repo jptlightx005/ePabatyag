@@ -121,7 +121,7 @@ Module SMSFunctions
     Public Function SendMessage(message As String, number As String)
         Dim newMessages As New List(Of SmsSubmitPdu)
 
-        Dim newMessage As New SmsSubmitPdu("message", number)
+        Dim newMessage As New SmsSubmitPdu(message, number)
         newMessages.Add(newMessage)
 
         Try
@@ -137,7 +137,7 @@ Module SMSFunctions
     Public Function SendMessageToContacts(message As String, contacts As List(Of ContactInformation)) As Boolean
         Dim newMessages As New List(Of SmsSubmitPdu)
         For Each contact In contacts
-            Dim newMessage As New SmsSubmitPdu("message", contact.contactNo)
+            Dim newMessage As New SmsSubmitPdu(message, contact.contactNo)
             newMessages.Add(newMessage)
         Next
         Try

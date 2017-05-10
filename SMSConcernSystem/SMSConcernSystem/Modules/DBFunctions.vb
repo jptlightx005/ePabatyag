@@ -70,12 +70,12 @@ Module DBFunctions
     Public Sub CreateInboxTable()
         Dim tableQuery As String = "CREATE TABLE `tbl_inbox` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
-                                    "`keyword`	INTEGER NOT NULL," & _
+                                    "`keyword`	TEXT NOT NULL," & _
                                     "`message_content`	TEXT NOT NULL," & _
                                     "`mobile_number`	TEXT NOT NULL," & _
                                     "`date_received`	TEXT NOT NULL," & _
-                                    "`is_removed`	INTEGER NOT NULL," & _
-                                    "`is_read`	INTEGER NOT NULL" & _
+                                    "`is_removed`	INTEGER NOT NULL DEFAULT 0," & _
+                                    "`is_read`	INTEGER NOT NULL DEFAULT 0" & _
                                 ");"
 
         Debug.Print("Created Inbox: {0}", ExecuteQuery(tableQuery).ToString)

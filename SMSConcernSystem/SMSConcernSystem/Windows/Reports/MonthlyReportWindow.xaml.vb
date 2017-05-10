@@ -2,10 +2,9 @@
 Public Class MonthlyReportWindow
     Private Sub Grid_Loaded(sender As Object, e As RoutedEventArgs)
         Dim base_dir = AppDomain.CurrentDomain.BaseDirectory
-        Dim HTMLReportPage As String = ReadAllText(base_dir & "\Resources\MonthlyReportPage.html")
-        Debug.Print(HTMLReportPage)
+        Dim HTMLReportPage As String = ReadAllText(base_dir & "\MonthlyReports\MonthlyReportPage.html")
 
-        Dim tryMeh = String.Format(HTMLReportPage, "Gotta touch this =)")
-        Debug.Print(tryMeh)
+        Dim tryMeh = HTMLReportPage.Replace("{0}", "Gotta touch this =)")
+
     End Sub
 End Class

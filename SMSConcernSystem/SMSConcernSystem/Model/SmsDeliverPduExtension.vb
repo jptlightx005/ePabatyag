@@ -18,11 +18,8 @@ Module SmsDeliverPduExtension
     Public Function ActualMessage(ByVal message As SmsDeliverPdu) As String
         Dim msg = ""
         If message.UserDataText.Length > 0 Then
-            Dim words = Split(message.UserDataText)
-            If words.Length > 0 Then
-                words.ToList.RemoveAt(0)
-                msg = Join(words)
-            End If
+            msg = message.UserDataText.Substring(message.Keyword.Length, message.UserDataText.Length - message.Keyword.Length)
+            msg = msg.Trim()
         End If
         Return msg
     End Function

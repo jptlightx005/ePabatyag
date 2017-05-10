@@ -102,7 +102,7 @@ Class MainWindow
     End Sub
 
     Private Sub CheckKeywordIfValid(message As SmsDeliverPdu)
-        For Each key In keywords
+        For Each key As String In keywords
             Debug.Print("{0} == {1}", message.Keyword, key)
 
             If message.Keyword = key Then
@@ -116,8 +116,8 @@ Class MainWindow
     Private Sub SaveFilteredMessage(message As SmsDeliverPdu)
         Dim parameters As New Dictionary(Of String, String)
         parameters.Add("keyword", SQLInject(message.Keyword))
-        parameters.Add("message_content", SQLInject(message.UserDataText))
-        parameters.Add("sender_number", SQLInject(message.OriginatingAddress))
+        parameters.Add("message_content", SQLInject(message.ActualMessage))
+        parameters.Add("mobile_number", SQLInject(message.OriginatingAddress))
         parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString))
         parameters.Add("is_read", 0)
         Dim sqlBuilder As New System.Text.StringBuilder
