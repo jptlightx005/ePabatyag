@@ -2,7 +2,7 @@
 Imports SMSCSFuncs
 Public Class MonthlyReportWebWindow
     Public selectedMonth As Integer
-
+    Public selectedDep As String
     Public Sub New()
 
         ' This call is required by the designer.
@@ -18,17 +18,29 @@ Public Class MonthlyReportWebWindow
 
     End Sub
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
-        Dim sql As String = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0")
+        Dim sql As String
+        If selectedDep = "ALL" Then
+            sql = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0")
+        Else
+            sql = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0 AND keyword = {0}", selectedDep)
+        End If
+
         Dim messages = SelectQuery(sql)
         Dim filteredMessages = New List(Of Dictionary(Of String, String))
-        For Each message In messages
-            Dim dateReceived As Date
-            dateReceived = DateTime.Parse(message("date_received"))
 
-            If dateReceived.Month = selectedMonth Then
-                filteredMessages.Add(message)
-            End If
-        Next
+        If selectedMonth = 0 Then
+            filteredMessages = messages
+        Else
+            For Each message In messages
+                Dim dateReceived As Date
+                dateReceived = DateTime.Parse(message("date_received"))
+
+                If dateReceived.Month = selectedMonth Then
+                    filteredMessages.Add(message)
+                End If
+            Next
+        End If
+        
 
         Dim htmlTable As String = ""
         For Each message In filteredMessages
