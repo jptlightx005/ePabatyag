@@ -3,13 +3,17 @@ Imports System.Data
 Imports System.Data.SQLite
 Imports System.ComponentModel
 Imports System.Windows.Threading
-Class MainWindow
+Imports System.Collections.ObjectModel
+
+Public Class MainWindow
     Dim messageList As List(Of Dictionary(Of String, String))
     Dim WithEvents deviceChecker As BackgroundWorker
     Dim WithEvents timerChecker As DispatcherTimer
 
     Dim closingObject As Object
-
+    Public Sub New()
+        InitializeComponent()
+    End Sub
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
         UpdateTable()
         timerChecker = New DispatcherTimer
@@ -38,9 +42,14 @@ Class MainWindow
             closingObject = mnu_close
             Me.Close()
         ElseIf Equals(sender, mnu_report) Then
-            Dim reportsWindow As New MonthlyReportWindow
+            Dim officeType As Type = Type.GetTypeFromProgID("Excel.Application")
+            If officeType Is Nothing Then
+                MsgBox("You must install Microsoft Excel on this computer to use the reporting system!", vbExclamation)
+            Else
+                Dim reportsWindow As New MonthlyReportWindow
 
-            reportsWindow.ShowDialog()
+                reportsWindow.ShowDialog()
+            End If
         End If
     End Sub
 
