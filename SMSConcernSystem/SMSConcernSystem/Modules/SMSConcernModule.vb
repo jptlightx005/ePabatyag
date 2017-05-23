@@ -5,6 +5,8 @@ Module SMSConcernModule
     Public smsSystemDB As String
     Public smsSystemImages As String
 
+    Public keywords As List(Of String)
+
     Sub Main()
         myDocumentsFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         smsSystemFolder = System.IO.Path.Combine(myDocumentsFolder, "ePabatyag")
@@ -12,6 +14,7 @@ Module SMSConcernModule
         smsSystemImages = System.IO.Path.Combine(smsSystemFolder, "Contact Images")
         CheckDB()
         LoadSettings()
+        LoadKeywords()
 
         Dim app As New System.Windows.Application
         If My.Settings.isLoggedIn Then
@@ -26,6 +29,24 @@ Module SMSConcernModule
         Debug.Print("Device port: {0}", My.Settings.smsDevicePort)
     End Sub
 
+    Private Sub LoadKeywords()
+        keywords = New List(Of String)
+        keywords.Add("ICT")
+        keywords.Add("SBM")
+        keywords.Add("SOE")
+        keywords.Add("IT")
+
+        keywords.Add("Guidance")
+        keywords.Add("Dean")
+        keywords.Add("OSA")
+        keywords.Add("Alumni")
+
+        keywords.Add("Registrar")
+        keywords.Add("Admin")
+        keywords.Add("Records")
+        keywords.Add("Others")
+    End Sub
+
     Public Sub CheckDB()
         If Not System.IO.Directory.Exists(smsSystemFolder) Then
             System.IO.Directory.CreateDirectory(smsSystemFolder)
@@ -38,7 +59,6 @@ Module SMSConcernModule
         If Not System.IO.File.Exists(smsSystemDB) Then
             SQLiteConnection.CreateFile(smsSystemDB)
             CreateAdminAccount()
-            CreateContactsTable()
             CreateInboxTable()
             CreateRawInboxTable()
         End If
@@ -50,9 +70,11 @@ Module SMSConcernModule
 
     Public Function SQLInject(ByVal value) As String
         If TypeOf value Is String Then
+            Debug.Print("Value '{0}' is a string", value)
             Return String.Format("'{0}'", AllTrim(value).Replace("'", "''"))
             'ElseIf TypeOf value Is Integer Then
         Else
+            Debug.Print("Value {0} is an integer, probably", value)
             Return String.Format("{0}", value)
         End If
 

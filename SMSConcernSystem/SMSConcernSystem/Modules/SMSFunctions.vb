@@ -3,6 +3,7 @@ Imports GsmComm.PduConverter
 Imports System.IO
 Imports System.Threading
 Imports System.IO.Ports
+Imports System.ComponentModel
 Module SMSFunctions
     Public smsDeviceConnected As Boolean
     Public smsComm As GsmCommMain
@@ -97,10 +98,19 @@ Module SMSFunctions
                 Debug.Print("Sender: {0}", data.OriginatingAddress)
                 Debug.Print("Sent: {0}", data.SCTimestamp.ToString)
                 Debug.Print("Message: {0}", data.UserDataText)
+                Debug.Print("Keyword: {0}", data.Keyword)
+                Debug.Print("Actual Message: {0}", data.ActualMessage)
                 Debug.Print("-------------------------------------------------------------------")
 
                 unreadMessages.Add(data)
             Next
+
+            If rawUnreadMessages.Count > 0 Then
+                For i = rawUnreadMessages.Count - 1 To 0 Step -1
+                    smsComm.DeleteMessage(i, PhoneStorageType.Sim)
+                Next
+                Debug.Print("{0} messages has been removed from the SIM", rawUnreadMessages.Count)
+            End If
         Catch ex As Exception
             smsDeviceConnected = False
             Debug.Print("Device has been removed!")
@@ -108,10 +118,26 @@ Module SMSFunctions
         Return unreadMessages
     End Function
 
-    Public Function SendMessage(message As String, contacts As List(Of ContactInformation)) As Boolean
+    Public Function SendMessage(message As String, number As String)
+        Dim newMessages As New List(Of SmsSubmitPdu)
+
+        Dim newMessage As New SmsSubmitPdu(message, number)
+        newMessages.Add(newMessage)
+
+        Try
+            Debug.Print("Sending...")
+            smsComm.SendMessages(newMessages.ToArray)
+            Return True
+        Catch ex As Exception
+            Debug.Print("Failed to send!")
+            Return False
+        End Try
+    End Function
+
+    Public Function SendMessageToContacts(message As String, contacts As List(Of ContactInformation)) As Boolean
         Dim newMessages As New List(Of SmsSubmitPdu)
         For Each contact In contacts
-            Dim newMessage As New SmsSubmitPdu("message", contact.contactNo)
+            Dim newMessage As New SmsSubmitPdu(message, contact.contactNo)
             newMessages.Add(newMessage)
         Next
         Try

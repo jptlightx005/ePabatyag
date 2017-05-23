@@ -18,9 +18,8 @@
                     <MenuItem x:Name="mnu_logout" Header="_Logout"/>
                     <MenuItem x:Name="mnu_close" Header="_Close" />
                 </MenuItem>
-                <MenuItem Header="_Students">
-                    <MenuItem x:Name="mnu_register" Header="_Register"/>
-                    <MenuItem x:Name="mnu_studentlist" Header="_Student List"/>
+                <MenuItem Header="_Reports">
+                    <MenuItem x:Name="mnu_report" Header="_Monthly Feedbacks"/>
                 </MenuItem>
                 <MenuItem Header="_About" IsEnabled="False"/>
             </Menu>
@@ -31,6 +30,7 @@
             <Image x:Name="imgConnected" Source="pack://siteoforigin:,,,/Resources/connected.png" HorizontalAlignment="Left" Width="12" Height="12" VerticalAlignment="Center" Margin="0" Visibility="Hidden" />
             <Label x:Name="lblConnected" Content="Not Connected" VerticalAlignment="Center" Margin="15,0,0,0" Height="24"/>
         </Grid>
+        <Button x:Name="btnRemove" Content="Remove" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10" IsEnabled="False"/>
 
     </Grid>
 </Window>
