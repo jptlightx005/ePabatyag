@@ -1,5 +1,6 @@
 ﻿Imports System.IO.File
 Imports SMSCSFuncs
+
 Public Class MonthlyReportWebWindow
     Public selectedMonth As Integer
     Public selectedDep As String
@@ -64,4 +65,11 @@ Public Class MonthlyReportWebWindow
     End Sub
     
 
+    Private Sub btnPrint_Click(sender As Object, e As RoutedEventArgs) Handles btnPrint.Click
+        webbrowser_extension.PrintDocument(wb_report)
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As RoutedEventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
 End Class

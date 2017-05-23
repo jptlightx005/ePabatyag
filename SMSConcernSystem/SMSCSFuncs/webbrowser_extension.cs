@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using mshtml;
 namespace SMSCSFuncs
 {
     public class webbrowser_extension
@@ -46,6 +47,13 @@ namespace SMSCSFuncs
         {
             [PreserveSig]
             int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
+        }
+
+        public static void PrintDocument(WebBrowser browser)
+        {
+
+            mshtml.IHTMLDocument2 doc = browser.Document as mshtml.IHTMLDocument2;
+            doc.execCommand("Print", true, null);
         }
     }
 }
