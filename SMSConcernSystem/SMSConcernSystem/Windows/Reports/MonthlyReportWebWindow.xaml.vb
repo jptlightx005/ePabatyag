@@ -48,18 +48,20 @@ Public Class MonthlyReportWebWindow
             Dim dateReceived As Date
             dateReceived = DateTime.Parse(message("date_received"))
 
-            htmlTable += "<tr>"
-            htmlTable += String.Format("<td>{0} {1}, {2}</td>", MonthName(dateReceived.Month, False), dateReceived.Day, dateReceived.Year)
-            htmlTable += String.Format("<td>{0}</td>", message("keyword"))
-            htmlTable += String.Format("<td>{0}</td>", message("message_content"))
-
-            htmlTable += "</tr>"
+            htmlTable += "<tr>" & vbCrLf
+            htmlTable += String.Format("<td>{0} {1}, {2}</td>", MonthName(dateReceived.Month, False), dateReceived.Day, dateReceived.Year) & vbCrLf
+            htmlTable += String.Format("<td>{0}</td>", message("keyword")) & vbCrLf
+            htmlTable += String.Format("<td>{0}</td>", message("message_content")) & vbCrLf
+            htmlTable += "</tr>" & vbCrLf
         Next
 
         Dim base_dir = AppDomain.CurrentDomain.BaseDirectory
         Dim HTMLReportPage As String = ReadAllText(base_dir & "\MonthlyReports\MonthlyReportPage.html")
-
-        Dim finalHTML = HTMLReportPage.Replace("{0}", htmlTable).Replace("{1}", base_dir.Replace("\", "/") & "MonthlyReports/")
+        Dim monthStr As String = "ALL MONTHS"
+        If selectedMonth <> 0 Then
+            monthStr = MonthName(selectedMonth)
+        End If
+        Dim finalHTML = HTMLReportPage.Replace("{0}", htmlTable).Replace("{1}", base_dir.Replace("\", "/") & "MonthlyReports/").Replace("{2}", monthStr)
         Debug.Print("Test: {0}", finalHTML)
         wb_report.NavigateToString(finalHTML)
     End Sub
