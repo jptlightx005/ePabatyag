@@ -6,24 +6,12 @@
     <Grid Background="#FFB2D6F9" Loaded="Grid_Loaded">
         <Button x:Name="btn_print" Content="View" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
         <Button x:Name="btn_close" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10"/>
-        <Label Content="Select Month:" Width="100" Margin="10,18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
-        <ComboBox x:Name="cmb_month" SelectedIndex="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,44,0,0">
-            <ComboBoxItem Content="ANY"/>
-            <ComboBoxItem Content="January"/>
-            <ComboBoxItem Content="February"/>
-            <ComboBoxItem Content="March"/>
-            <ComboBoxItem Content="April"/>
-            <ComboBoxItem Content="May"/>
-            <ComboBoxItem Content="June"/>
-            <ComboBoxItem Content="July"/>
-            <ComboBoxItem Content="August"/>
-            <ComboBoxItem Content="September"/>
-            <ComboBoxItem Content="October"/>
-            <ComboBoxItem Content="November"/>
-            <ComboBoxItem Content="December"/>
-
-        </ComboBox>
-        <Label Content="Select Department:" Width="118" Margin="10,71,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
-        <ComboBox x:Name="cmb_dep" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,97,0,0" ItemsSource="{Binding ElementName=mrw, Path=department_list}"/>
+        <Label Content="Department:" Width="118" Margin="10,104,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
+        <ComboBox x:Name="cmb_dep" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,130,0,0" ItemsSource="{Binding ElementName=mrw, Path=department_list}"/>
+        <DatePicker x:Name="fromPicker" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,11,0,0" IsEnabled="False" DisplayDateEnd="{Binding SelectedDate, ElementName=toPicker}"/>
+        <CheckBox x:Name="chkAllMonths" Content="All Months" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,71,0,0" IsChecked="True"/>
+        <DatePicker x:Name="toPicker" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,42,0,0" IsEnabled="False" DisplayDateStart="{Binding SelectedDate, ElementName=fromPicker}"/>
+        <Label Content="From:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <Label Content="To:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0"/>
     </Grid>
 </Window>

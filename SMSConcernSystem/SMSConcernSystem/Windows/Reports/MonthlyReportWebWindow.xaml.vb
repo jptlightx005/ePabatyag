@@ -2,7 +2,9 @@
 Imports SMSCSFuncs
 
 Public Class MonthlyReportWebWindow
-    Public selectedMonth As Integer
+    Public fromMonth As Date
+    Public toMonth As Date
+    Public allMonth As Boolean
     Public selectedDep As String
     Public Sub New()
 
@@ -29,14 +31,14 @@ Public Class MonthlyReportWebWindow
         Dim messages = SelectQuery(sql)
         Dim filteredMessages = New List(Of Dictionary(Of String, String))
 
-        If selectedMonth = 0 Then
+        If allMonth Then
             filteredMessages = messages
         Else
             For Each message In messages
                 Dim dateReceived As Date
                 dateReceived = DateTime.Parse(message("date_received"))
 
-                If dateReceived.Month = selectedMonth Then
+                If dateReceived >= fromMonth And dateReceived <= toMonth Then
                     filteredMessages.Add(message)
                 End If
             Next
@@ -57,9 +59,9 @@ Public Class MonthlyReportWebWindow
 
         Dim base_dir = AppDomain.CurrentDomain.BaseDirectory
         Dim HTMLReportPage As String = ReadAllText(base_dir & "\MonthlyReports\MonthlyReportPage.html")
-        Dim monthStr As String = "ALL MONTHS"
-        If selectedMonth <> 0 Then
-            monthStr = MonthName(selectedMonth)
+        Dim monthStr As String = "ALL"
+        If Not allMonth Then
+            monthStr = fromMonth.ToString("MMMM dd, yyyy") & " - " & toMonth.ToString("MMMM dd, yyyy")
         End If
         Dim finalHTML = HTMLReportPage.Replace("{0}", htmlTable).Replace("{1}", base_dir.Replace("\", "/") & "MonthlyReports/").Replace("{2}", monthStr)
         Debug.Print("Test: {0}", finalHTML)

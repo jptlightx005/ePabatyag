@@ -26,9 +26,28 @@ Public Class MonthlyReportWindow
 
     Private Sub btn_print_Click(sender As Object, e As RoutedEventArgs) Handles btn_print.Click
         Dim webReportWindow As New MonthlyReportWebWindow
-        webReportWindow.selectedMonth = cmb_month.SelectedIndex
+        webReportWindow.allMonth = chkAllMonths.IsChecked
+        If Not chkAllMonths.IsChecked Then
+            If fromPicker.SelectedDate Is Nothing And toPicker.SelectedDate Is Nothing Then
+                MsgBox("Please select dates!", vbExclamation)
+                Return
+            End If
+            webReportWindow.fromMonth = fromPicker.SelectedDate.Value
+            webReportWindow.toMonth = toPicker.SelectedDate.Value
+
+        End If
+
         webReportWindow.selectedDep = department_list(cmb_dep.SelectedIndex)
-        Debug.Print("Selected month is {0}", webReportWindow.selectedMonth)
         webReportWindow.ShowDialog()
+    End Sub
+
+    Private Sub chkAllMonths_Click(sender As Object, e As RoutedEventArgs) Handles chkAllMonths.Click
+        If chkAllMonths.IsChecked Then
+            fromPicker.IsEnabled = False
+            toPicker.IsEnabled = False
+        Else
+            fromPicker.IsEnabled = True
+            toPicker.IsEnabled = True
+        End If
     End Sub
 End Class
