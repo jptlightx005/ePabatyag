@@ -23,7 +23,7 @@ Public Class MonthlyReportWebWindow
         If selectedDep = "ALL" Then
             sql = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0")
         Else
-            sql = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0 AND keyword = {0}", selectedDep)
+            sql = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0 AND keyword = '{0}'", selectedDep)
         End If
 
         Dim messages = SelectQuery(sql)
