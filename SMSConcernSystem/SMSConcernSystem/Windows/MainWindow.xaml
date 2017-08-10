@@ -3,7 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="MainWindow" Height="455.43" Width="525" Loaded="Window_Loaded" Icon="/SMSConcernSystem;component/WVSU-PC Logo.ico" LostFocus="Window_LostFocus" GotFocus="Window_GotFocus" Closing="Window_Closing" WindowState="Maximized">
     <Grid Background="#FFB2D6F9">
-        <DataGrid x:Name="gridInbox" Margin="10,27,10,37" FontSize="14" IsReadOnly="True">
+        <DataGrid x:Name="gridInbox" Margin="10,27,10,37" FontSize="14" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding keyword}" Header="Keyword" />
+                <DataGridTextColumn Binding="{Binding message_content}" Header="Message" />
+                <DataGridTextColumn Binding="{Binding mobile_number}" Header="Mobile No." />
+                <DataGridTextColumn Binding="{Binding date_received, StringFormat=\{0:hh:mm tt\}}" Header="Date Received" />
+            </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="gridInboxRow_DoubleClick"/>

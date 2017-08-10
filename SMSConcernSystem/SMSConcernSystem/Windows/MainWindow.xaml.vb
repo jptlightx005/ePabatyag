@@ -59,19 +59,14 @@ Public Class MainWindow
         End If
     End Sub
     Private Sub UpdateTable()
-        Dim selectStudentsQuery As String = "SELECT keyword As `Keyword`," & _
-                                            "message_content AS `Message`," & _
-                                            "mobile_number As `Mobile No` " & _
-                                            "FROM tbl_inbox WHERE is_removed = 0 ORDER BY tbl_inbox.ID DESC "
+        Dim selectStudentsQuery As String = "SELECT * FROM tbl_inbox WHERE is_removed = 0 ORDER BY tbl_inbox.ID DESC "
 
         Dim dataSet As New DataSet()
         Dim data = SelectData(selectStudentsQuery)
         data.Fill(dataSet)
         gridInbox.ItemsSource = dataSet.Tables(0).DefaultView
 
-        Dim sql As String = String.Format("SELECT * FROM tbl_inbox WHERE is_removed = 0 ORDER BY tbl_inbox.ID DESC ")
-
-        messageList = SelectQuery(sql)
+        messageList = SelectQuery(selectStudentsQuery)
 
         gridInbox.IsReadOnly = True
     End Sub
@@ -127,7 +122,7 @@ Public Class MainWindow
         parameters.Add("keyword", SQLInject(message.Keyword))
         parameters.Add("message_content", SQLInject(message.ActualMessage))
         parameters.Add("mobile_number", SQLInject(message.OriginatingAddress))
-        parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString))
+        parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString(False)))
         parameters.Add("is_read", 0)
         Dim sqlBuilder As New System.Text.StringBuilder
         sqlBuilder.AppendLine(String.Format("INSERT INTO tbl_inbox({0}) VALUES({1});",
