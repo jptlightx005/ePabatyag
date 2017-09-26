@@ -58,21 +58,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSMCommServer">
-      <HintPath>..\..\..\dependencies\GSMComm\GSMCommServer.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\dependencies\GSMComm\GSMCommServer.dll</HintPath>
     </Reference>
     <Reference Include="GSMCommShared">
-      <HintPath>..\..\..\dependencies\GSMComm\GSMCommShared.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\dependencies\GSMComm\GSMCommShared.dll</HintPath>
     </Reference>
     <Reference Include="GSMCommunication">
-      <HintPath>..\..\..\dependencies\GSMComm\GSMCommunication.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\dependencies\GSMComm\GSMCommunication.dll</HintPath>
     </Reference>
     <Reference Include="PDUConverter">
-      <HintPath>..\..\..\dependencies\GSMComm\PDUConverter.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\dependencies\GSMComm\PDUConverter.dll</HintPath>
     </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\dependencies\sqlite-netFx20-binary-bundle-Win32-2005-1.0.103.0\System.Data.SQLite.dll</HintPath>
+      <HintPath>H:\THESIS SMS-INQUIRY\dependencies\sqlite-netFx20-binary-bundle-Win32-2005-1.0.103.0\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
