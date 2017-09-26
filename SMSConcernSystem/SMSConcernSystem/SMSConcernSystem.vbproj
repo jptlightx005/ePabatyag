@@ -312,6 +312,9 @@
     <Content Include="MonthlyReports\bootstrap\js\npm.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="MonthlyReports\MonthlyReportPageDep.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="MonthlyReports\MonthlyReportPage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
