@@ -58,12 +58,21 @@ Public Class MonthlyReportWebWindow
         Next
 
         Dim base_dir = AppDomain.CurrentDomain.BaseDirectory
-        Dim HTMLReportPage As String = ReadAllText(base_dir & "\MonthlyReports\MonthlyReportPage.html")
+        Dim url = "\MonthlyReports\MonthlyReportPage.html"
+        Debug.Print("Dep: {0}", selectedDep)
+        If selectedDep <> "ALL" Then
+            url = "\MonthlyReports\MonthlyReportPageDep.html"
+        End If
+
+        Dim HTMLReportPage As String = ReadAllText(base_dir & url)
         Dim monthStr As String = "ALL"
         If Not allMonth Then
             monthStr = fromMonth.ToString("MMMM dd, yyyy") & " - " & toMonth.ToString("MMMM dd, yyyy")
         End If
         Dim finalHTML = HTMLReportPage.Replace("{0}", htmlTable).Replace("{1}", base_dir.Replace("\", "/") & "MonthlyReports/").Replace("{2}", monthStr)
+        If selectedDep <> "ALL" Then
+            finalHTML = finalHTML.Replace("{3}", selectedDep)
+        End If
         Debug.Print("Test: {0}", finalHTML)
         wb_report.NavigateToString(finalHTML)
     End Sub

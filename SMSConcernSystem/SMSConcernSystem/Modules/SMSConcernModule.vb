@@ -6,7 +6,7 @@ Module SMSConcernModule
     Public smsSystemImages As String
 
     Public keywords As List(Of String)
-
+    Public profanities As List(Of String)
     Sub Main()
         myDocumentsFolder = My.Computer.FileSystem.SpecialDirectories.MyDocuments
         smsSystemFolder = System.IO.Path.Combine(myDocumentsFolder, "ePabatyag")
@@ -15,7 +15,7 @@ Module SMSConcernModule
         CheckDB()
         LoadSettings()
         LoadKeywords()
-
+        LoadProfanities()
         Dim app As New System.Windows.Application
         If My.Settings.isLoggedIn Then
             app.Run(New MainWindow)
@@ -47,6 +47,14 @@ Module SMSConcernModule
         keywords.Add("Others")
     End Sub
 
+    Private Sub LoadProfanities()
+        profanities = New List(Of String)
+        Dim profTable = SelectQuery("SELECT profane_word FROM tbl_profanity")
+        For Each word In profTable
+            profanities.Add(word("profane_word"))
+        Next
+    End Sub
+
     Public Sub CheckDB()
         If Not System.IO.Directory.Exists(smsSystemFolder) Then
             System.IO.Directory.CreateDirectory(smsSystemFolder)
@@ -58,10 +66,13 @@ Module SMSConcernModule
 
         If Not System.IO.File.Exists(smsSystemDB) Then
             SQLiteConnection.CreateFile(smsSystemDB)
-            CreateAdminAccount()
-            CreateInboxTable()
-            CreateRawInboxTable()
         End If
+        CreateAdminAccount()
+        CreateInboxTable()
+        CreateRawInboxTable()
+        CreateProfanityTable()
+        CreateOutboxTable()
+        'CreateSentTable()
     End Sub
 
     Public Function AllTrim(ByVal text As String) As String

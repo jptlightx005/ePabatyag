@@ -20,6 +20,14 @@ Public Class MainWindow
         deviceChecker = New BackgroundWorker
         timerChecker.Interval = New TimeSpan(0, 0, 0, 1, 0)
         timerChecker.Start()
+
+        'Uncomment for testing only
+        'Dim sms_test_message As New SmsDeliverPdu
+        'sms_test_message.UserDataText = "ICT Q5 P5 hello world!!"
+        'sms_test_message.OriginatingAddress = "09098058053"
+        'sms_test_message.SCTimestamp = New SmsTimestamp(Now, 8)
+        'SaveRawMessage(sms_test_message)
+
     End Sub
 
     Private Sub menuItem_Click(sender As Object, e As RoutedEventArgs) Handles mnu_logout.Click, mnuSettings.Click, mnu_close.Click, mnu_report.Click
@@ -87,6 +95,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub SaveRawMessage(message As SmsDeliverPdu)
+        Debug.Print("Attempting to save raw message '{0}'", message.UserDataText)
         Dim parameters As New Dictionary(Of String, String)
         parameters.Add("sender", SQLInject(message.OriginatingAddress))
         parameters.Add("message", SQLInject(message.UserDataText))
@@ -120,7 +129,10 @@ Public Class MainWindow
     Private Sub SaveFilteredMessage(message As SmsDeliverPdu)
         Dim parameters As New Dictionary(Of String, String)
         parameters.Add("keyword", SQLInject(message.Keyword))
-        parameters.Add("message_content", SQLInject(message.ActualMessage))
+        parameters.Add("quality", SQLInject(message.Ratings.QualityOfService))
+        parameters.Add("timeliness", SQLInject(message.Ratings.TimelinessOfService))
+        parameters.Add("professionalism", SQLInject(message.Ratings.ProfesionalismOfPersonel))
+        parameters.Add("message_content", SQLInject(message.FilteredMessage))
         parameters.Add("mobile_number", SQLInject(message.OriginatingAddress))
         parameters.Add("date_received", SQLInject(message.SCTimestamp.ToString(False)))
         parameters.Add("is_read", 0)
