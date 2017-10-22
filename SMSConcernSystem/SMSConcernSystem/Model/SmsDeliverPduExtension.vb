@@ -92,4 +92,31 @@ Module SmsDeliverPduExtension
         End If
         Return msg
     End Function
+
+    <Extension()>
+    Public Function FilteredMessage(ByVal message As SmsDeliverPdu) As String
+        Dim msg = ActualMessage(message)
+        Dim newMessage = ""
+        If msg.Length > 0 Then
+
+            Dim words = Split(msg)
+
+            For Each txt In words
+                Dim profaneFound = False
+                For Each profaneWord In profanities
+                    If txt.ToLower.Contains(profaneWord) Then
+                        newMessage &= txt.ToLower.Replace(profaneWord.ToLower, "****") & " "
+                        profaneFound = True
+                        Exit For
+                    End If
+                Next
+
+                If Not profaneFound Then
+                    newMessage &= txt + " "
+                End If
+            Next
+            newMessage = newMessage.Trim()
+        End If
+        Return newMessage
+    End Function
 End Module

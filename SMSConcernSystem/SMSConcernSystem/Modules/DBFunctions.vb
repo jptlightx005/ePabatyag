@@ -1,6 +1,7 @@
 ﻿
 Imports System.Data.SQLite
 Imports System.Data.DataSet
+Imports System.Text
 Module DBFunctions
 
     Public Function DBQuery() As SQLiteConnection
@@ -50,7 +51,18 @@ Module DBFunctions
 
         Return records
     End Function
+
+    Public Function TableExists(tablename As String) As Boolean
+        Dim query = String.Format("SELECT name FROM sqlite_master WHERE type='table' AND name = '{0}'", tablename)
+        Dim result = SelectQuery(query)
+        Return result.Count > 0
+    End Function
     Public Sub CreateAdminAccount()
+        Debug.Print("Attempting to create table tbl_raw_inbox")
+        If TableExists("tbl_admin") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
         Dim tableQuery As String = "CREATE TABLE `tbl_admin` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
                                     "`usrn`	TEXT NOT NULL," & _
@@ -68,6 +80,11 @@ Module DBFunctions
     End Sub
 
     Public Sub CreateInboxTable()
+        Debug.Print("Attempting to create table tbl_raw_inbox")
+        If TableExists("tbl_inbox") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
         Dim tableQuery As String = "CREATE TABLE `tbl_inbox` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
                                     "`keyword`	TEXT NOT NULL," & _
@@ -86,6 +103,11 @@ Module DBFunctions
     End Sub
 
     Public Sub CreateRawInboxTable()
+        Debug.Print("Attempting to create table tbl_raw_inbox")
+        If TableExists("tbl_raw_inbox") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
         Dim tableQuery As String = "CREATE TABLE `tbl_raw_inbox` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
                                     "`sender`	TEXT NOT NULL," & _
@@ -94,6 +116,43 @@ Module DBFunctions
                                 ");"
 
         Debug.Print("Created Raw Inbox: {0}", ExecuteQuery(tableQuery).ToString)
+    End Sub
+
+    Public Sub CreateProfanityTable()
+        Debug.Print("Attempting to create table tbl_profanity")
+        If TableExists("tbl_profanity") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
+        Dim tableQuery As String = "CREATE TABLE `tbl_profanity` (" & _
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`profane_word`	TEXT NOT NULL," & _
+                                    "`date_added`	TEXT NOT NULL" & _
+                                ");"
+
+
+        If (ExecuteQuery(tableQuery)) Then
+            Debug.Print("Profanity table created!")
+            Dim profanitiesQuery As New StringBuilder
+            profanitiesQuery.Append("INSERT INTO tbl_profanity VALUES ")
+            Dim newInsertString = Function(profaneWord As String) As String
+                                      Dim values = String.Format("(NULL, '{0}', '{1}')", profaneWord, Now.ToString)
+                                      Return values
+                                  End Function
+            profanitiesQuery.Append(newInsertString("fuck") & ", ")
+            profanitiesQuery.Append(newInsertString("shit") & ", ")
+            profanitiesQuery.Append(newInsertString("bitch") & ", ")
+            profanitiesQuery.Append(newInsertString("gago") & ", ")
+            profanitiesQuery.Append(newInsertString("gaga") & ", ")
+            profanitiesQuery.Append(newInsertString("linti") & ", ")
+            profanitiesQuery.Append(newInsertString("linte") & ", ")
+            profanitiesQuery.Append(newInsertString("lente") & ", ")
+            profanitiesQuery.Append(newInsertString("mango"))
+
+            Debug.Print("Added profanities: {0}", ExecuteQuery(profanitiesQuery.ToString).ToString)
+        Else
+            MsgBox("Failed to create Table", vbExclamation)
+        End If
     End Sub
 
     Public Function Login(usrn As String, pssw As String) As List(Of Dictionary(Of String, String))
