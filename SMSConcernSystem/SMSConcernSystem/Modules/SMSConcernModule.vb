@@ -71,6 +71,8 @@ Module SMSConcernModule
         CreateInboxTable()
         CreateRawInboxTable()
         CreateProfanityTable()
+        CreateOutboxTable()
+        'CreateSentTable()
     End Sub
 
     Public Function AllTrim(ByVal text As String) As String

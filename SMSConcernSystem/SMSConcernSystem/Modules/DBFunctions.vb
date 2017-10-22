@@ -118,6 +118,37 @@ Module DBFunctions
         Debug.Print("Created Raw Inbox: {0}", ExecuteQuery(tableQuery).ToString)
     End Sub
 
+    Public Sub CreateOutboxTable()
+        Debug.Print("Attempting to create table tbl_outbox")
+        If TableExists("tbl_outbox") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
+        Dim tableQuery As String = "CREATE TABLE `tbl_outbox` (" & _
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`receiver`	TEXT NOT NULL," & _
+                                    "`message`	TEXT NOT NULL," & _
+                                    "`date_sent`	TEXT NOT NULL" & _
+                                ");"
+
+        Debug.Print("Created Outbox: {0}", ExecuteQuery(tableQuery).ToString)
+    End Sub
+
+    Public Sub CreateSentTable()
+        Debug.Print("Attempting to create table tbl_sent")
+        If TableExists("tbl_sent") Then
+            Debug.Print("Table exists!")
+            Return
+        End If
+        Dim tableQuery As String = "CREATE TABLE `tbl_sent` (" & _
+                                    "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
+                                    "`receiver`	TEXT NOT NULL," & _
+                                    "`message`	TEXT NOT NULL," & _
+                                    "`date_sent`	TEXT NOT NULL" & _
+                                ");"
+
+        Debug.Print("Created Sent Table: {0}", ExecuteQuery(tableQuery).ToString)
+    End Sub
     Public Sub CreateProfanityTable()
         Debug.Print("Attempting to create table tbl_profanity")
         If TableExists("tbl_profanity") Then

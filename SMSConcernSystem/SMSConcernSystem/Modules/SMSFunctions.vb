@@ -124,9 +124,27 @@ Module SMSFunctions
         Dim newMessage As New SmsSubmitPdu(message, number)
         newMessages.Add(newMessage)
 
+        Debug.Print("Attempting to save to outbox '{0}'", newMessage.UserDataText)
+        Dim parameters As New Dictionary(Of String, String)
+        parameters.Add("receiver", SQLInject(newMessage.DestinationAddress))
+        parameters.Add("message", SQLInject(newMessage.UserDataText))
+        parameters.Add("date_sent", SQLInject(Now.ToString))
+
+        Dim sqlBuilder As New System.Text.StringBuilder
+        sqlBuilder.AppendLine(String.Format("INSERT INTO tbl_outbox({0}) VALUES({1});",
+            pList(parameters.Keys),
+            pList(parameters.Values)))
+
+        If ExecuteQuery(sqlBuilder.ToString) Then
+            Debug.Print("Sending a message and stored to outbox")
+        Else
+            Debug.Print("Sending a message but failed to store to raw outbox")
+        End If
+
         Try
             Debug.Print("Sending...")
             smsComm.SendMessages(newMessages.ToArray)
+
             Return True
         Catch ex As Exception
             Debug.Print("Failed to send!")
@@ -139,6 +157,23 @@ Module SMSFunctions
         For Each contact In contacts
             Dim newMessage As New SmsSubmitPdu(message, contact.contactNo)
             newMessages.Add(newMessage)
+
+            Debug.Print("Attempting to save to outbox '{0}'", newMessage.UserDataText)
+            Dim parameters As New Dictionary(Of String, String)
+            parameters.Add("receiver", SQLInject(newMessage.DestinationAddress))
+            parameters.Add("message", SQLInject(newMessage.UserDataText))
+            parameters.Add("date_sent", SQLInject(Now.ToString))
+
+            Dim sqlBuilder As New System.Text.StringBuilder
+            sqlBuilder.AppendLine(String.Format("INSERT INTO tbl_outbox({0}) VALUES({1});",
+                pList(parameters.Keys),
+                pList(parameters.Values)))
+
+           If ExecuteQuery(sqlBuilder.ToString) Then
+                Debug.Print("Sending a message and stored to outbox")
+            Else
+                Debug.Print("Sending a message but failed to store to raw outbox")
+            End If
         Next
         Try
             Debug.Print("Sending...")
