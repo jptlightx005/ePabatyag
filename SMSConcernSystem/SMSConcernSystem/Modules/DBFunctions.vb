@@ -71,6 +71,9 @@ Module DBFunctions
         Dim tableQuery As String = "CREATE TABLE `tbl_inbox` (" & _
                                     "`ID`	INTEGER PRIMARY KEY AUTOINCREMENT," & _
                                     "`keyword`	TEXT NOT NULL," & _
+                                    "`quality`	TEXT NOT NULL," & _
+                                    "`timeliness`	TEXT NOT NULL," & _
+                                    "`professionalism`	TEXT NOT NULL," & _
                                     "`message_content`	TEXT NOT NULL," & _
                                     "`mobile_number`	TEXT NOT NULL," & _
                                     "`date_received`	TEXT NOT NULL," & _
