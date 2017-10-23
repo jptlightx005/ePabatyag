@@ -52,7 +52,15 @@ Public Class MonthlyReportWebWindow
 
             htmlTable += "<tr>" & vbCrLf
             htmlTable += String.Format("<td>{0} {1}, {2}</td>", MonthName(dateReceived.Month, False), dateReceived.Day, dateReceived.Year) & vbCrLf
-            htmlTable += String.Format("<td>{0}</td>", message("keyword")) & vbCrLf
+            htmlTable += String.Format("<td>{0}</td>", message("quality")) & vbCrLf
+            htmlTable += String.Format("<td>{0}</td>", message("timeliness")) & vbCrLf
+            htmlTable += String.Format("<td>{0}</td>", message("professionalism")) & vbCrLf
+            Dim total As Double = Double.Parse(message("quality")) + Double.Parse(message("timeliness")) + Double.Parse(message("professionalism"))
+            Dim average = Math.Round(total / 3, 2)
+            htmlTable += String.Format("<td>{0}</td>", average) & vbCrLf
+            If selectedDep = "ALL" Then
+                htmlTable += String.Format("<td>{0}</td>", message("keyword")) & vbCrLf
+            End If
             htmlTable += String.Format("<td>{0}</td>", message("message_content")) & vbCrLf
             htmlTable += "</tr>" & vbCrLf
         Next
