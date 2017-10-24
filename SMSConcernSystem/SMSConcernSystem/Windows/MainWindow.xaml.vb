@@ -124,6 +124,7 @@ Public Class MainWindow
                 Exit Sub
             End If
         Next
+        ReplyIfKeywordIsInvalid(message.OriginatingAddress)
         Debug.Print("Message was not saved because keyword is not valid.")
     End Sub
     Private Sub SaveFilteredMessage(message As SmsDeliverPdu)
@@ -156,6 +157,13 @@ Public Class MainWindow
     Private Sub ReplyIfMessageIsValid(sender As String)
         If smsDeviceConnected Then
             Dim message = "Congratulations! Your message has been received. Thank you for your feedback! We will get in touch with you soon!"
+            SendMessage(message, sender)
+        End If
+    End Sub
+
+    Private Sub ReplyIfKeywordIsInvalid(sender As String)
+        If smsDeviceConnected Then
+            Dim message = "Sorry, your keyword is invalid! Please try again!"
             SendMessage(message, sender)
         End If
     End Sub
