@@ -6,9 +6,9 @@
         <DataGrid x:Name="gridInbox" Margin="10,27,10,37" FontSize="14" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding keyword}" Header="Keyword" />
-                <DataGridTextColumn Binding="{Binding quality}" Header="QoS" />
-                <DataGridTextColumn Binding="{Binding timeliness}" Header="ToSD" />
-                <DataGridTextColumn Binding="{Binding professionalism}" Header="PoP" />
+                <DataGridTextColumn Binding="{Binding quality}" Header="Quality of Service" />
+                <DataGridTextColumn Binding="{Binding timeliness}" Header="Timeliness of Service" />
+                <DataGridTextColumn Binding="{Binding professionalism}" Header="Professionalism of Personel" />
                 <DataGridTextColumn Binding="{Binding message_content}" Header="Message" />
                 <DataGridTextColumn Binding="{Binding mobile_number}" Header="Mobile No." />
                 <DataGridTextColumn Binding="{Binding date_received, StringFormat=\{0:hh:mm tt\}}" Header="Date Received" />
