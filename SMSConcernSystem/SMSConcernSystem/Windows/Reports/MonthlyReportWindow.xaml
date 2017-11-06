@@ -1,0 +1,21 @@
+﻿<Window x:Class="MonthlyReportWindow"
+        Name="mrw"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="MonthlyReportWindow" Height="257" Width="300">
+    <Grid Background="#FFB2D6F9" Loaded="Grid_Loaded">
+        <Button x:Name="btn_print" Content="View" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10"/>
+        <Button x:Name="btn_close" Content="Close" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10"/>
+        <Label Content="Department:" Width="118" Margin="10,104,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
+        <ComboBox x:Name="cmb_dep" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" Margin="10,130,0,0" ItemsSource="{Binding ElementName=mrw, Path=department_list}"/>
+        <DatePicker x:Name="fromPicker" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,11,0,0" IsEnabled="False" DisplayDateEnd="{Binding SelectedDate, ElementName=toPicker}"/>
+        <CheckBox x:Name="chkAllMonths" Content="All Months" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,71,0,0" IsChecked="True"/>
+        <DatePicker x:Name="toPicker" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,42,0,0" IsEnabled="False" DisplayDateStart="{Binding SelectedDate, ElementName=fromPicker}"/>
+        <Label Content="From:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <Label Content="To:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0"/>
+        <StackPanel Orientation="Horizontal" Margin="10,157,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" Width="144">
+            <RadioButton x:Name="rbFeedbacks" Margin="0,0,10,0">Feedbacks</RadioButton>
+            <RadioButton x:Name="rbRatings" Margin="0,0,10,0">Ratings</RadioButton>
+        </StackPanel>
+    </Grid>
+</Window>

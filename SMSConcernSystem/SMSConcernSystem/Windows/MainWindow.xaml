@@ -1,0 +1,45 @@
+﻿<Window x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="MainWindow" Height="455.43" Width="525" Loaded="Window_Loaded" Icon="/SMSConcernSystem;component/WVSU-PC Logo.ico" LostFocus="Window_LostFocus" GotFocus="Window_GotFocus" Closing="Window_Closing" WindowState="Maximized">
+    <Grid Background="#FFB2D6F9">
+        <DataGrid x:Name="gridInbox" Margin="10,27,10,37" FontSize="14" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding keyword}" Header="Keyword" />
+                <DataGridTextColumn Binding="{Binding quality}" Header="Quality of Service" />
+                <DataGridTextColumn Binding="{Binding timeliness}" Header="Timeliness of Service" />
+                <DataGridTextColumn Binding="{Binding professionalism}" Header="Professionalism of Personel" />
+                <DataGridTextColumn Binding="{Binding message_content}" Header="Message" />
+                <DataGridTextColumn Binding="{Binding mobile_number}" Header="Mobile No." />
+                <DataGridTextColumn Binding="{Binding date_received, StringFormat=\{0:hh:mm tt\}}" Header="Date Received" />
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="gridInboxRow_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+        <Button x:Name="btnRead" Content="Read" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,10,10" IsEnabled="False"/>
+        <DockPanel Height="22" LastChildFill="False" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Application">
+                    <MenuItem x:Name="mnuSettings" Header="_Settings" IsEnabled="False"/>
+                    <MenuItem x:Name="mnu_logout" Header="_Logout"/>
+                    <MenuItem x:Name="mnu_close" Header="_Close" />
+                </MenuItem>
+                <MenuItem Header="_Reports">
+                    <MenuItem x:Name="mnu_report" Header="_Monthly Feedbacks"/>
+                </MenuItem>
+                <MenuItem Header="_About" IsEnabled="False"/>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Height="22">
+            <Image Source="pack://siteoforigin:,,,/Resources/not connected.png" HorizontalAlignment="Left" Width="12" Height="12" VerticalAlignment="Center" Margin="0"/>
+            <Image x:Name="imgConnected" Source="pack://siteoforigin:,,,/Resources/connected.png" HorizontalAlignment="Left" Width="12" Height="12" VerticalAlignment="Center" Margin="0" Visibility="Hidden" />
+            <Label x:Name="lblConnected" Content="Not Connected" VerticalAlignment="Center" Margin="15,0,0,0" Height="24"/>
+        </Grid>
+        <Button x:Name="btnRemove" Content="Remove" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Margin="0,0,90,10" IsEnabled="False"/>
+
+    </Grid>
+</Window>

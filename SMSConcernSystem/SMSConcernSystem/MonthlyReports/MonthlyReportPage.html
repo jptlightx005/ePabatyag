@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css" media="print">
+        @page {
+            size: auto;
+            margin: 0mm;
+        }
+
+        html {
+            background-color: #FFF;
+            margin: 0px;
+        }
+
+        body {
+            border: solid 1px white;
+            margin: 5mm 15mm 5mm 15mm;
+        }
+    </style>
+    <style type="text/css">
+        span .label {
+            color: #000;
+            border: 0px;
+        }
+
+        span .detail {
+            display: table-cell;
+            border-bottom: 1px solid black;
+        } 
+    </style>
+    <script src="{1}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{1}js/general.js"></script>
+    <script src="{1}js/sidebar.js"></script>
+    <script src="{1}js/search.js"></script>
+    <link rel="stylesheet" href="{1}bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <center><h1>MONTHLY REPORT</h1></center>
+    <center>TIME PERIODS: <b>{2}</b></center>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-sm-3">DATE/TIME</th>
+                <th class="col-sm-1">Quality of Service</th>
+                <th class="col-sm-1">Timeliness of Service</th>
+                <th class="col-sm-1">Professionalism of Personel</th>
+                <th class="col-sm-1">Total</th>
+                <th class="col-sm-2">DEPARTMENT</th>
+                <th class="col-sm-3">FEEDBACK</th>
+            </tr>
+        </thead>
+        <tbody>
+            {0}
+        </tbody>
+    </table>
+</body>
+</html>
